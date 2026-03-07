@@ -3,38 +3,27 @@ title: "About Me"
 sidebar: false 
 ---
 
-![](assets/images/vesikalik.jpeg){fig-align="center"}
+![](images/WhatsApp%20Image%202026-02-18%20at%2021.02.44.jpeg){fig-align="left" width="181"}
 
 # Education
 
--   B.S., ................................., ....................................University, Turkey, 20xx - 20xx.
--   M.S., Industrial Engineering, Hacettepe University, Turkey, 20xx - ongoing.
--   Ph.D.., Industrial Engineering, Hacettepe University, Turkey, 20xx - ongoing.
+-   B.S., Industrial Engineering, Middle East Technical University, Turkey, 2017 - 2024.
+-   M.S., Industrial Engineering, Hacettepe University, Turkey, 2026 - ongoing.
 
 # Work Experience
 
 ## Employements
 
-1.  Firm xxx, position xx, year xxx
+1.  Firm Mitas Industry Inc. Position Junior SAS Specialist, year 2025-Ongoing
 
-2.  Firm yyy, position yyy, year yyy
+2.  Firm Mitas Bolt Inc., position BI and Data Specialist, year 2023-2025
 
 ## Internships
 
-1.  Firm aaa, position xx, year xxx
+1.  Firm Petlas, position Purchasing Intern, year 2023
 
-2.  Firm bbb, position yyy, year yyy
-
-# Projects
-
-1.  TUBİTAK 1001..........................
-
-# Publications
-
-1.  Dasdemir, E., Batta, R., Koksalan, M., Tezcaner Ozturk, D. (2022) “UAV Routing for Reconnaissance Mission: A Multi-Objective Orienteering Problem with Time-Dependent Prizes and Multiple Connections”, Computers & Operations Research, 145: 105882.
+2.  Firm Mitas Bolt Inc, position Manufacturing Intern, year 2022
 
 # Competencies
 
-R, Quarto, Git, Python
-
-# Hobbies
+SQL,Excel VBA,Power BI,R, Quarto, Git, Python
