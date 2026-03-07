@@ -27,3 +27,7 @@ sidebar: false
 # Competencies
 
 SQL,Excel VBA,Power BI,R, Quarto, Git, Python
+
+# CV
+
+[ÖMER FURKAN DEMİRCİ CV](file:///C:/Users/PC/Downloads/%C3%96MER%20FURKAN%20DEM%C4%B0RC%C4%B0%20CV.html)
