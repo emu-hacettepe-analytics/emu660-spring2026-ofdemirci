@@ -4,12 +4,161 @@ title: "Assignment 1"
 
 # Assignment 1
 
-```{r}
-1 + 1
-```
-
-My first assignment has two parts.
+My first assignment has four parts.
 
 ## (a)
 
+### [A Brief Summary on Mr.Vardar's Speech](https://youtu.be/Fi8-phj1X1A?si=zh4tOQzJQGkmbELD)
+
+I saw this video and listened to a talk about how to advance in your career in industrial engineering. The video helped me understand how data science is connected to industrial engineering and problems that businesses face in the real world.Mr.Vardar said that engineering is mostly about using logical thinking and organized methods to figure out how to solve difficult problems. I learned that industrial engineers try to make systems like production, logistics, and operations work better. The speech also stressed how important it is to first understand the problem instead of just focusing on tools or technologies. One of the most important things I learned from the video is that professionals should always be learning, working on projects, and using what they know to solve problems in the real world. The video reminded me that to do well in engineering and technology, you need to be able to think critically, solve problems, and know a lot about technology.
+
 ## (b)
+
+### Questions From The Talk:
+
+#### Open-Ended Question
+
+**Question:**\
+According to the video, why is understanding the problem more important than focusing only on tools?
+
+**Answer:**\
+Understanding the problem is important because tools are only methods used to solve issues. If someone clearly understands the problem, they can choose the most effective tools and approaches to find the best solution.
+
+#### Multiple-Choice Question
+
+**Question:**\
+What is one key responsibility of industrial engineers mentioned in the video?
+
+A\) Writing novels\
+B) Improving the efficiency of systems and processes\
+C) Designing clothing\
+D) Producing music
+
+**Correct Answer:** **B) Improving the efficiency of systems and processes**
+
+## (c)
+
+#### Custom summary function, for loop, sapply, apply
+
+```{r}
+data(mtcars)
+
+compute_stats<-function(x){
+  list(
+    mean = mean(x),
+    median = median(x),
+    variance = var(x),
+    IQR = IQR(x),
+    minimum = min(x),
+    maximum = max(x)
+  )
+}
+#FOR loop
+numeric_cols <- sapply(mtcars, is.numeric)
+#AI Prompt For Numeric_cols was How can I detect the numerical columns of a vector?
+for (col_name in names(mtcars)[numeric_cols]) {
+  cat("Column:", col_name, "\n")
+  print(compute_stats(mtcars[[col_name]]))
+}
+#Sapply
+sapply_results <- sapply(mtcars[, numeric_cols], compute_stats, simplify = FALSE)
+cat("\n\n===== sapply results =====\n")
+print(sapply_results)
+
+#Apply
+apply_results <- apply(mtcars, 2, compute_stats)
+
+cat("\n\n===== apply results =====\n")
+print(apply_results)
+```
+
+## (d)
+
+#### polls_us_election_2016
+
+```{r}
+#install.packages("dslabs")
+#install.packages("dplyr")
+library(dslabs)
+library(dplyr)
+data("polls_us_election_2016")
+df <- polls_us_election_2016
+my_first <- "Omer"
+my_birth_year <- 1999
+
+k <- (nchar(my_first) + my_birth_year) %% 15 + 8
+cat("Calculated value of k:", k, "\n\n")
+```
+
+```{r}
+if (k %% 2 == 0) {
+  
+  cat("k is even. Therefore the first", k, "rows of the original dataset are displayed:\n\n")
+  print(head(df, k))
+  
+} else {
+  
+  cat("k is odd. Therefore the last", k, "rows of the original dataset are displayed:\n\n")
+  print(tail(df, k))
+}
+```
+
+```{r}
+total_na <- sum(is.na(df))
+
+cat("\nTotal number of NA values in the entire dataset:", total_na, "\n\n")
+```
+
+```{r}
+na_per_column <- sort(colSums(is.na(df)), decreasing = TRUE)
+
+cat("Top 8 columns with the highest number of NA values:\n\n")
+print(head(na_per_column, 8))
+```
+
+```{r}
+new_data <- df
+
+for (col_name in names(new_data)) {
+  
+  if (is.numeric(new_data[[col_name]])) {
+    
+    new_data[[col_name]][is.na(new_data[[col_name]])] <- my_birth_year + k
+    
+  } else if (is.character(new_data[[col_name]])) {
+    
+    new_data[[col_name]][is.na(new_data[[col_name]])] <- paste0(my_first, "_", k)
+    
+  } else if (is.factor(new_data[[col_name]])) {
+    
+    levels(new_data[[col_name]]) <- c(levels(new_data[[col_name]]), paste0(my_first, "_", k))
+    new_data[[col_name]][is.na(new_data[[col_name]])] <- paste0(my_first, "_", k)
+  }
+}
+
+cat("\nAll NA values have been replaced in the new dataset according to the assignment rules.\n\n")
+```
+
+```{r}
+if (k %% 2 == 0) {
+  
+  cat("k is even. Showing the first", k, "rows of the new dataset:\n\n")
+  print(head(new_data, k))
+  
+} else {
+  
+  cat("k is odd. Showing the last", k, "rows of the new dataset:\n\n")
+  print(tail(new_data, k))
+}
+```
+
+```{r}
+remaining_na <- sum(is.na(new_data))
+
+cat("\nTotal number of NA values remaining in the new dataset:", remaining_na, "\n")
+```
+
+```{r}
+cat("\nChecking if any NA values remain in the dataset:\n")
+print(anyNA(new_data))
+```
