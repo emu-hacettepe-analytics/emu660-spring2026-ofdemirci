@@ -78,9 +78,7 @@ print(apply_results)
 
 ```{r}
 #install.packages("dslabs")
-#install.packages("dplyr")
 library(dslabs)
-library(dplyr)
 data("polls_us_election_2016")
 df <- polls_us_election_2016
 my_first <- "Omer"
