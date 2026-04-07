@@ -81,6 +81,7 @@ The processed dataset consists of three main analytical tables:
 -   In general, the exchange rate variables show a strong upward trend over time rather than a stable distribution.
 
     ```{r}
+    library(dplyr)
     library(ggplot2)
     usd_eur <- Conversion_Rates %>%
       mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
@@ -100,16 +101,17 @@ The processed dataset consists of three main analytical tables:
 ### 2. Credit Card Expenditure Table
 
 -   **Description**:
--   This table contains Year, Month, Expense Type, and Quantity.\
--   Expense Type identifies the spending category, and Quantity gives the corresponding spending amount for that month.
 
-<!-- -->
+-   This table contains Year, Month, Expense Type, and Quantity.\
+
+-   Expense Type identifies the spending category, and Quantity gives the corresponding spending amount for that month.
 
 -   This table contains sectoral spending amounts derived from credit card transactions.
 
 -   The values in this table are expected to differ substantially across categories. Some categories such as retail, food, fuel, and e-commerce are likely to have much larger values than others.
 
     ```{r}
+    library(dplyr)
     library(ggplot2)
     expense_quantity <- Expense_Quantity %>%
       mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
@@ -137,6 +139,7 @@ The processed dataset consists of three main analytical tables:
     Region represents the housing price index regions as in NUTS2 level, House Price Index shows the monthly house price index for that region, and Total Sales gives the aggregated monthly house sales value for the same region.
 
     ```{r}
+    library(dplyr)
     library(ggplot2)
 
     konut_index_sales <- Konut_Index_Sales %>%
@@ -156,6 +159,7 @@ The processed dataset consists of three main analytical tables:
     ```
 
 ```{r}
+library(dplyr)
 library(ggplot2)
 
 ggplot(

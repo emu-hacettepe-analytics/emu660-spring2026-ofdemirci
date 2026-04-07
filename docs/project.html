@@ -391,6 +391,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Welcome to our project page.</p>
+<p>We are Ömer Furkan Demirci and Fatih Alper Vural</p>
 <p>Keep an eye on this space to stay updated with my project activities.</p>
 <section id="project-overview-and-scope" class="level1">
 <h1>1. Project Overview and Scope</h1>
@@ -502,33 +503,31 @@ Attaching package: 'dplyr'</code></pre>
 <section id="credit-card-expenditure-table" class="level3">
 <h3 class="anchored" data-anchor-id="credit-card-expenditure-table">2. Credit Card Expenditure Table</h3>
 <ul>
-<li><strong>Description</strong>:</li>
-</ul>
-<pre><code>This table contains Year, Month, Expense Type, and Quantity.\
-
-Expense Type identifies the spending category, and Quantity gives the corresponding spending amount for that month.</code></pre>
-<ul>
-<li><p>Contains sectoral spending amounts derived from credit card transactions.</p></li>
+<li><p><strong>Description</strong>:</p></li>
+<li><p>This table contains Year, Month, Expense Type, and Quantity.<br>
+</p></li>
+<li><p>Expense Type identifies the spending category, and Quantity gives the corresponding spending amount for that month.</p></li>
+<li><p>This table contains sectoral spending amounts derived from credit card transactions.</p></li>
 <li><p>The values in this table are expected to differ substantially across categories. Some categories such as retail, food, fuel, and e-commerce are likely to have much larger values than others.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>expense_quantity <span class="ot">&lt;-</span> Expense_Quantity <span class="sc">%&gt;%</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">sprintf</span>(<span class="st">"%d-%02d-01"</span>, Year, Month)))</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  expense_quantity <span class="sc">%&gt;%</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Expense_Type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"E-Alışveriş"</span>, <span class="st">"Çeşitli Gıda"</span>, <span class="st">"Giyim ve Aksesuar"</span>, <span class="st">"Benzin ve Yakıt İstasyonları"</span>)),</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Quantity, <span class="at">color =</span> Expense_Type)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Credit Card Expenditures for Selected Categories"</span>,</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Quantity"</span>,</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Expense Type"</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>expense_quantity <span class="ot">&lt;-</span> Expense_Quantity <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">sprintf</span>(<span class="st">"%d-%02d-01"</span>, Year, Month)))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  expense_quantity <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Expense_Type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"E-Alışveriş"</span>, <span class="st">"Çeşitli Gıda"</span>, <span class="st">"Giyim ve Aksesuar"</span>, <span class="st">"Benzin ve Yakıt İstasyonları"</span>)),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Quantity, <span class="at">color =</span> Expense_Type)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Credit Card Expenditures for Selected Categories"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Quantity"</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Expense Type"</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -546,23 +545,23 @@ Expense Type identifies the spending category, and Quantity gives the correspond
 This is the main table for the project and contains Year, Month, Region, House Price Index, and Total Sales.</p>
 <p>Region represents the housing price index regions as in NUTS2 level, House Price Index shows the monthly house price index for that region, and Total Sales gives the aggregated monthly house sales value for the same region.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>konut_index_sales <span class="ot">&lt;-</span> Konut_Index_Sales <span class="sc">%&gt;%</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">sprintf</span>(<span class="st">"%d-%02d-01"</span>, Year, Month)))</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  konut_index_sales <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Region <span class="sc">==</span> <span class="st">"Türkiye"</span>),</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Konut_Endeksi)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"House Price Index in Türkiye Over Time"</span>,</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"House Price Index"</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>konut_index_sales <span class="ot">&lt;-</span> Konut_Index_Sales <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">sprintf</span>(<span class="st">"%d-%02d-01"</span>, Year, Month)))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  konut_index_sales <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Region <span class="sc">==</span> <span class="st">"Türkiye"</span>),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Konut_Endeksi)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"House Price Index in Türkiye Over Time"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"House Price Index"</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -573,23 +572,23 @@ This is the main table for the project and contains Year, Month, Region, House P
 </div></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  Konut_Index_Sales <span class="sc">%&gt;%</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">sprintf</span>(<span class="st">"%d-%02d-01"</span>, Year, Month))) <span class="sc">%&gt;%</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Türkiye"</span>, <span class="st">"İstanbul"</span>, <span class="st">"İzmir"</span>, <span class="st">"Ankara"</span>, <span class="st">"Adana, Mersin"</span>)),</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Total_Sales, <span class="at">color =</span> Region)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Total House Sales for Selected Regions"</span>,</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total Sales"</span>,</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Region"</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  Konut_Index_Sales <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">sprintf</span>(<span class="st">"%d-%02d-01"</span>, Year, Month))) <span class="sc">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Türkiye"</span>, <span class="st">"İstanbul"</span>, <span class="st">"İzmir"</span>, <span class="st">"Ankara"</span>, <span class="st">"Adana, Mersin"</span>)),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Total_Sales, <span class="at">color =</span> Region)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Total House Sales for Selected Regions"</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total Sales"</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Region"</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -604,21 +603,9 @@ This is the main table for the project and contains Year, Month, Region, House P
 <h2 class="anchored" data-anchor-id="potential-analyses">Potential Analyses</h2>
 <ul>
 <li>time-series plots of house prices, exchange rates, and sales,</li>
-</ul>
-<!-- -->
-<ul>
 <li>regional comparisons of house price growth,</li>
-</ul>
-<!-- -->
-<ul>
 <li>correlations between exchange rates and the house price index,</li>
-</ul>
-<!-- -->
-<ul>
 <li>relationships between sales volume and housing prices,</li>
-</ul>
-<!-- -->
-<ul>
 <li>category-based spending trends over time,</li>
 </ul>
 </section>
@@ -629,9 +616,9 @@ This is the main table for the project and contains Year, Month, Region, House P
 <ul>
 <li><p>Consistent in frequency (monthly)</p></li>
 <li><p>Long enough for trend analysis</p></li>
-<li><p>Rich enough for regional comparison</p></li>
+<li><p>Rich enough for regional comparison</p>
+<p>This makes it easy for analyzing.</p></li>
 </ul>
-<pre><code>This makes it easy for analyzing.</code></pre>
 </section>
 <section id="preprocessing" class="level2">
 <h2 class="anchored" data-anchor-id="preprocessing">2.4 Preprocessing</h2>
@@ -640,168 +627,168 @@ This is the main table for the project and contains Year, Month, Region, House P
 <p>Here you can find our python code.<br>
 <br>
 </p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We explained the data and the output tables to AI.It gave us this code's first verison.Then we fixed it according to our needs</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>downloads <span class="op">=</span> Path.home() <span class="op">/</span> <span class="st">"Downloads"</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Files</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>kurlar_file <span class="op">=</span> downloads <span class="op">/</span> <span class="st">"Kurlar.xlsx"</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>kredi_file <span class="op">=</span> downloads <span class="op">/</span> <span class="st">"Kredi Harcama.xlsx"</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>konut_satis_file <span class="op">=</span> downloads <span class="op">/</span> <span class="st">"Konut Satış.xlsx"</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>konut_fiyat_file <span class="op">=</span> downloads <span class="op">/</span> <span class="st">"Konut Fiyat Endexi.xlsx"</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>output_file <span class="op">=</span> downloads <span class="op">/</span> <span class="st">"evds_preprocessed_tables_fixed.xlsx"</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> split_year_month(df):</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Tarih"</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">"Tarih"</span>], <span class="bu">format</span><span class="op">=</span><span class="st">"%Y-%m"</span>)</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Year"</span>] <span class="op">=</span> df[<span class="st">"Tarih"</span>].dt.year</span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Month"</span>] <span class="op">=</span> df[<span class="st">"Tarih"</span>].dt.month</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Read</span></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>kurlar <span class="op">=</span> split_year_month(pd.read_excel(kurlar_file))</span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>kredi <span class="op">=</span> split_year_month(pd.read_excel(kredi_file))</span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>satis <span class="op">=</span> split_year_month(pd.read_excel(konut_satis_file))</span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>kfe <span class="op">=</span> split_year_month(pd.read_excel(konut_fiyat_file))</span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="co"># TABLE 1: Exchange Rates</span></span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>table_kurlar <span class="op">=</span> (</span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    kurlar[[<span class="st">"Year"</span>, <span class="st">"Month"</span>, <span class="st">"TP_DK_USD_S_YTL"</span>, <span class="st">"TP_DK_EUR_S_YTL"</span>]]</span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{</span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"TP_DK_USD_S_YTL"</span>: <span class="st">"USD"</span>,</span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"TP_DK_EUR_S_YTL"</span>: <span class="st">"EUR"</span></span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="co"># TABLE 2: Credit Expenditures</span></span>
-<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>expense_type_map <span class="op">=</span> {</span>
-<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT2"</span>: <span class="st">"Car Rental"</span>,</span>
-<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT3"</span>: <span class="st">"Car Sales/Service"</span>,</span>
-<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT4"</span>: <span class="st">"Fuel"</span>,</span>
-<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT5"</span>: <span class="st">"Food"</span>,</span>
-<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT6"</span>: <span class="st">"Direct Marketing"</span>,</span>
-<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT7"</span>: <span class="st">"Education"</span>,</span>
-<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT8"</span>: <span class="st">"Electronics"</span>,</span>
-<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT9"</span>: <span class="st">"Clothing"</span>,</span>
-<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT10"</span>: <span class="st">"Airlines"</span>,</span>
-<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT11"</span>: <span class="st">"Services"</span>,</span>
-<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT12"</span>: <span class="st">"Accommodation"</span>,</span>
-<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT13"</span>: <span class="st">"Social"</span>,</span>
-<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT14"</span>: <span class="st">"Entertainment"</span>,</span>
-<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT15"</span>: <span class="st">"Jewelry"</span>,</span>
-<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT16"</span>: <span class="st">"Retail"</span>,</span>
-<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT17"</span>: <span class="st">"Furniture"</span>,</span>
-<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT18"</span>: <span class="st">"Construction"</span>,</span>
-<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT19"</span>: <span class="st">"Health"</span>,</span>
-<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT20"</span>: <span class="st">"Travel"</span>,</span>
-<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT21"</span>: <span class="st">"Insurance"</span>,</span>
-<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT22"</span>: <span class="st">"Telecom"</span>,</span>
-<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT23"</span>: <span class="st">"Hardware"</span>,</span>
-<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT24"</span>: <span class="st">"Food Service"</span>,</span>
-<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT25"</span>: <span class="st">"Misc"</span>,</span>
-<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT26"</span>: <span class="st">"Other"</span>,</span>
-<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT50"</span>: <span class="st">"E-Commerce"</span></span>
-<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>kredi_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> expense_type_map <span class="cf">if</span> c <span class="kw">in</span> kredi.columns]</span>
-<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>table_kredi <span class="op">=</span> (</span>
-<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>    kredi.melt(</span>
-<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a>        id_vars<span class="op">=</span>[<span class="st">"Year"</span>, <span class="st">"Month"</span>],</span>
-<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a>        value_vars<span class="op">=</span>kredi_cols,</span>
-<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a>        var_name<span class="op">=</span><span class="st">"Code"</span>,</span>
-<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>        value_name<span class="op">=</span><span class="st">"Quantity"</span></span>
-<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a>    .assign(Expense_Type<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="st">"Code"</span>].<span class="bu">map</span>(expense_type_map))</span>
-<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a>    [[<span class="st">"Year"</span>, <span class="st">"Month"</span>, <span class="st">"Expense_Type"</span>, <span class="st">"Quantity"</span>]]</span>
-<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a><span class="co"># TABLE 3: Housing Panel</span></span>
-<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a>provinces <span class="op">=</span> [</span>
-<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adana"</span>,<span class="st">"Adıyaman"</span>,<span class="st">"Afyonkarahisar"</span>,<span class="st">"Ağrı"</span>,<span class="st">"Aksaray"</span>,<span class="st">"Amasya"</span>,<span class="st">"Ankara"</span>,</span>
-<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Antalya"</span>,<span class="st">"Ardahan"</span>,<span class="st">"Artvin"</span>,<span class="st">"Aydın"</span>,<span class="st">"Balıkesir"</span>,<span class="st">"Bartın"</span>,<span class="st">"Batman"</span>,</span>
-<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bayburt"</span>,<span class="st">"Bilecik"</span>,<span class="st">"Bingöl"</span>,<span class="st">"Bitlis"</span>,<span class="st">"Bolu"</span>,<span class="st">"Burdur"</span>,<span class="st">"Bursa"</span>,<span class="st">"Çanakkale"</span>,</span>
-<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Çankırı"</span>,<span class="st">"Çorum"</span>,<span class="st">"Denizli"</span>,<span class="st">"Diyarbakır"</span>,<span class="st">"Düzce"</span>,<span class="st">"Edirne"</span>,<span class="st">"Elazığ"</span>,</span>
-<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Erzincan"</span>,<span class="st">"Erzurum"</span>,<span class="st">"Eskişehir"</span>,<span class="st">"Gaziantep"</span>,<span class="st">"Giresun"</span>,<span class="st">"Gümüşhane"</span>,</span>
-<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Hakkâri"</span>,<span class="st">"Hatay"</span>,<span class="st">"Iğdır"</span>,<span class="st">"Isparta"</span>,<span class="st">"İstanbul"</span>,<span class="st">"İzmir"</span>,<span class="st">"Kahramanmaraş"</span>,</span>
-<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Karabük"</span>,<span class="st">"Karaman"</span>,<span class="st">"Kars"</span>,<span class="st">"Kastamonu"</span>,<span class="st">"Kayseri"</span>,<span class="st">"Kırıkkale"</span>,<span class="st">"Kırklareli"</span>,</span>
-<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Kırşehir"</span>,<span class="st">"Kilis"</span>,<span class="st">"Kocaeli"</span>,<span class="st">"Konya"</span>,<span class="st">"Kütahya"</span>,<span class="st">"Malatya"</span>,<span class="st">"Manisa"</span>,</span>
-<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mardin"</span>,<span class="st">"Mersin"</span>,<span class="st">"Muğla"</span>,<span class="st">"Muş"</span>,<span class="st">"Nevşehir"</span>,<span class="st">"Niğde"</span>,<span class="st">"Ordu"</span>,<span class="st">"Osmaniye"</span>,</span>
-<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Rize"</span>,<span class="st">"Sakarya"</span>,<span class="st">"Samsun"</span>,<span class="st">"Siirt"</span>,<span class="st">"Sinop"</span>,<span class="st">"Sivas"</span>,<span class="st">"Şanlıurfa"</span>,<span class="st">"Şırnak"</span>,</span>
-<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Tekirdağ"</span>,<span class="st">"Tokat"</span>,<span class="st">"Trabzon"</span>,<span class="st">"Tunceli"</span>,<span class="st">"Uşak"</span>,<span class="st">"Van"</span>,<span class="st">"Yalova"</span>,<span class="st">"Yozgat"</span>,</span>
-<span id="cb14-103"><a href="#cb14-103" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Zonguldak"</span></span>
-<span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a>code_map <span class="op">=</span> {<span class="st">"TP_AKONUTSAT1_K1"</span>: provinces[<span class="dv">0</span>]}</span>
-<span id="cb14-107"><a href="#cb14-107" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">82</span>):</span>
-<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a>    code_map[<span class="ss">f"TP_AKONUTSAT1_T</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> provinces[i<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a>sales_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> satis.columns <span class="cf">if</span> c <span class="kw">in</span> code_map]</span>
-<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a>sales_long <span class="op">=</span> (</span>
-<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a>    satis.melt(</span>
-<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a>        id_vars<span class="op">=</span>[<span class="st">"Year"</span>, <span class="st">"Month"</span>],</span>
-<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a>        value_vars<span class="op">=</span>sales_cols,</span>
-<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a>        var_name<span class="op">=</span><span class="st">"Code"</span>,</span>
-<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a>        value_name<span class="op">=</span><span class="st">"Sales"</span></span>
-<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a>    .assign(Province<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="st">"Code"</span>].<span class="bu">map</span>(code_map))</span>
-<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-122"><a href="#cb14-122" aria-hidden="true" tabindex="-1"></a><span class="co"># Region mapping (example simplified)</span></span>
-<span id="cb14-123"><a href="#cb14-123" aria-hidden="true" tabindex="-1"></a>region_map <span class="op">=</span> {</span>
-<span id="cb14-124"><a href="#cb14-124" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adana"</span>:<span class="st">"TR62"</span>,<span class="st">"Mersin"</span>:<span class="st">"TR62"</span>,<span class="st">"Ankara"</span>:<span class="st">"TR51"</span>,<span class="st">"İstanbul"</span>:<span class="st">"TR10"</span></span>
-<span id="cb14-125"><a href="#cb14-125" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb14-126"><a href="#cb14-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-127"><a href="#cb14-127" aria-hidden="true" tabindex="-1"></a>sales_long[<span class="st">"Region_Code"</span>] <span class="op">=</span> sales_long[<span class="st">"Province"</span>].<span class="bu">map</span>(region_map)</span>
-<span id="cb14-128"><a href="#cb14-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-129"><a href="#cb14-129" aria-hidden="true" tabindex="-1"></a>sales_region <span class="op">=</span> (</span>
-<span id="cb14-130"><a href="#cb14-130" aria-hidden="true" tabindex="-1"></a>    sales_long.groupby([<span class="st">"Year"</span>,<span class="st">"Month"</span>,<span class="st">"Region_Code"</span>])[<span class="st">"Sales"</span>].<span class="bu">sum</span>().reset_index()</span>
-<span id="cb14-131"><a href="#cb14-131" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-132"><a href="#cb14-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-133"><a href="#cb14-133" aria-hidden="true" tabindex="-1"></a>kfe_map <span class="op">=</span> {</span>
-<span id="cb14-134"><a href="#cb14-134" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KFE_TR62"</span>:<span class="st">"TR62"</span>,</span>
-<span id="cb14-135"><a href="#cb14-135" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KFE_TR51"</span>:<span class="st">"TR51"</span>,</span>
-<span id="cb14-136"><a href="#cb14-136" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KFE_TR10"</span>:<span class="st">"TR10"</span></span>
-<span id="cb14-137"><a href="#cb14-137" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb14-138"><a href="#cb14-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-139"><a href="#cb14-139" aria-hidden="true" tabindex="-1"></a>kfe_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> kfe_map <span class="cf">if</span> c <span class="kw">in</span> kfe.columns]</span>
-<span id="cb14-140"><a href="#cb14-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-141"><a href="#cb14-141" aria-hidden="true" tabindex="-1"></a>kfe_long <span class="op">=</span> (</span>
-<span id="cb14-142"><a href="#cb14-142" aria-hidden="true" tabindex="-1"></a>    kfe.melt(</span>
-<span id="cb14-143"><a href="#cb14-143" aria-hidden="true" tabindex="-1"></a>        id_vars<span class="op">=</span>[<span class="st">"Year"</span>,<span class="st">"Month"</span>],</span>
-<span id="cb14-144"><a href="#cb14-144" aria-hidden="true" tabindex="-1"></a>        value_vars<span class="op">=</span>kfe_cols,</span>
-<span id="cb14-145"><a href="#cb14-145" aria-hidden="true" tabindex="-1"></a>        var_name<span class="op">=</span><span class="st">"Code"</span>,</span>
-<span id="cb14-146"><a href="#cb14-146" aria-hidden="true" tabindex="-1"></a>        value_name<span class="op">=</span><span class="st">"House_Price_Index"</span></span>
-<span id="cb14-147"><a href="#cb14-147" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb14-148"><a href="#cb14-148" aria-hidden="true" tabindex="-1"></a>    .assign(Region_Code<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="st">"Code"</span>].<span class="bu">map</span>(kfe_map))</span>
-<span id="cb14-149"><a href="#cb14-149" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-150"><a href="#cb14-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-151"><a href="#cb14-151" aria-hidden="true" tabindex="-1"></a>table_konut <span class="op">=</span> kfe_long.merge(</span>
-<span id="cb14-152"><a href="#cb14-152" aria-hidden="true" tabindex="-1"></a>    sales_region,</span>
-<span id="cb14-153"><a href="#cb14-153" aria-hidden="true" tabindex="-1"></a>    on<span class="op">=</span>[<span class="st">"Year"</span>,<span class="st">"Month"</span>,<span class="st">"Region_Code"</span>]</span>
-<span id="cb14-154"><a href="#cb14-154" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-155"><a href="#cb14-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-156"><a href="#cb14-156" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-157"><a href="#cb14-157" aria-hidden="true" tabindex="-1"></a><span class="co"># SAVE</span></span>
-<span id="cb14-158"><a href="#cb14-158" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
-<span id="cb14-159"><a href="#cb14-159" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pd.ExcelWriter(output_file) <span class="im">as</span> writer:</span>
-<span id="cb14-160"><a href="#cb14-160" aria-hidden="true" tabindex="-1"></a>    table_kurlar.to_excel(writer, sheet_name<span class="op">=</span><span class="st">"USD_EUR"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb14-161"><a href="#cb14-161" aria-hidden="true" tabindex="-1"></a>    table_kredi.to_excel(writer, sheet_name<span class="op">=</span><span class="st">"Expense"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb14-162"><a href="#cb14-162" aria-hidden="true" tabindex="-1"></a>    table_konut.to_excel(writer, sheet_name<span class="op">=</span><span class="st">"Housing"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We explained the data and the output tables to AI.It gave us this code's first verison.Then we fixed it according to our needs</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>downloads <span class="op">=</span> Path.home() <span class="op">/</span> <span class="st">"Downloads"</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Files</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>kurlar_file <span class="op">=</span> downloads <span class="op">/</span> <span class="st">"Kurlar.xlsx"</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>kredi_file <span class="op">=</span> downloads <span class="op">/</span> <span class="st">"Kredi Harcama.xlsx"</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>konut_satis_file <span class="op">=</span> downloads <span class="op">/</span> <span class="st">"Konut Satış.xlsx"</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>konut_fiyat_file <span class="op">=</span> downloads <span class="op">/</span> <span class="st">"Konut Fiyat Endexi.xlsx"</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>output_file <span class="op">=</span> downloads <span class="op">/</span> <span class="st">"evds_preprocessed_tables_fixed.xlsx"</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> split_year_month(df):</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Tarih"</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">"Tarih"</span>], <span class="bu">format</span><span class="op">=</span><span class="st">"%Y-%m"</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Year"</span>] <span class="op">=</span> df[<span class="st">"Tarih"</span>].dt.year</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"Month"</span>] <span class="op">=</span> df[<span class="st">"Tarih"</span>].dt.month</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Read</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>kurlar <span class="op">=</span> split_year_month(pd.read_excel(kurlar_file))</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>kredi <span class="op">=</span> split_year_month(pd.read_excel(kredi_file))</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>satis <span class="op">=</span> split_year_month(pd.read_excel(konut_satis_file))</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>kfe <span class="op">=</span> split_year_month(pd.read_excel(konut_fiyat_file))</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="co"># TABLE 1: Exchange Rates</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>table_kurlar <span class="op">=</span> (</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    kurlar[[<span class="st">"Year"</span>, <span class="st">"Month"</span>, <span class="st">"TP_DK_USD_S_YTL"</span>, <span class="st">"TP_DK_EUR_S_YTL"</span>]]</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    .rename(columns<span class="op">=</span>{</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>        <span class="st">"TP_DK_USD_S_YTL"</span>: <span class="st">"USD"</span>,</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">"TP_DK_EUR_S_YTL"</span>: <span class="st">"EUR"</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="co"># TABLE 2: Credit Expenditures</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>expense_type_map <span class="op">=</span> {</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT2"</span>: <span class="st">"Car Rental"</span>,</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT3"</span>: <span class="st">"Car Sales/Service"</span>,</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT4"</span>: <span class="st">"Fuel"</span>,</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT5"</span>: <span class="st">"Food"</span>,</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT6"</span>: <span class="st">"Direct Marketing"</span>,</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT7"</span>: <span class="st">"Education"</span>,</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT8"</span>: <span class="st">"Electronics"</span>,</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT9"</span>: <span class="st">"Clothing"</span>,</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT10"</span>: <span class="st">"Airlines"</span>,</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT11"</span>: <span class="st">"Services"</span>,</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT12"</span>: <span class="st">"Accommodation"</span>,</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT13"</span>: <span class="st">"Social"</span>,</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT14"</span>: <span class="st">"Entertainment"</span>,</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT15"</span>: <span class="st">"Jewelry"</span>,</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT16"</span>: <span class="st">"Retail"</span>,</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT17"</span>: <span class="st">"Furniture"</span>,</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT18"</span>: <span class="st">"Construction"</span>,</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT19"</span>: <span class="st">"Health"</span>,</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT20"</span>: <span class="st">"Travel"</span>,</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT21"</span>: <span class="st">"Insurance"</span>,</span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT22"</span>: <span class="st">"Telecom"</span>,</span>
+<span id="cb12-68"><a href="#cb12-68" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT23"</span>: <span class="st">"Hardware"</span>,</span>
+<span id="cb12-69"><a href="#cb12-69" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT24"</span>: <span class="st">"Food Service"</span>,</span>
+<span id="cb12-70"><a href="#cb12-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT25"</span>: <span class="st">"Misc"</span>,</span>
+<span id="cb12-71"><a href="#cb12-71" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT26"</span>: <span class="st">"Other"</span>,</span>
+<span id="cb12-72"><a href="#cb12-72" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KKHARTUT_KT50"</span>: <span class="st">"E-Commerce"</span></span>
+<span id="cb12-73"><a href="#cb12-73" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a>kredi_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> expense_type_map <span class="cf">if</span> c <span class="kw">in</span> kredi.columns]</span>
+<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a>table_kredi <span class="op">=</span> (</span>
+<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>    kredi.melt(</span>
+<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>        id_vars<span class="op">=</span>[<span class="st">"Year"</span>, <span class="st">"Month"</span>],</span>
+<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>        value_vars<span class="op">=</span>kredi_cols,</span>
+<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>        var_name<span class="op">=</span><span class="st">"Code"</span>,</span>
+<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>        value_name<span class="op">=</span><span class="st">"Quantity"</span></span>
+<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>    .assign(Expense_Type<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="st">"Code"</span>].<span class="bu">map</span>(expense_type_map))</span>
+<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>    [[<span class="st">"Year"</span>, <span class="st">"Month"</span>, <span class="st">"Expense_Type"</span>, <span class="st">"Quantity"</span>]]</span>
+<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a><span class="co"># TABLE 3: Housing Panel</span></span>
+<span id="cb12-90"><a href="#cb12-90" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-91"><a href="#cb12-91" aria-hidden="true" tabindex="-1"></a>provinces <span class="op">=</span> [</span>
+<span id="cb12-92"><a href="#cb12-92" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adana"</span>,<span class="st">"Adıyaman"</span>,<span class="st">"Afyonkarahisar"</span>,<span class="st">"Ağrı"</span>,<span class="st">"Aksaray"</span>,<span class="st">"Amasya"</span>,<span class="st">"Ankara"</span>,</span>
+<span id="cb12-93"><a href="#cb12-93" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Antalya"</span>,<span class="st">"Ardahan"</span>,<span class="st">"Artvin"</span>,<span class="st">"Aydın"</span>,<span class="st">"Balıkesir"</span>,<span class="st">"Bartın"</span>,<span class="st">"Batman"</span>,</span>
+<span id="cb12-94"><a href="#cb12-94" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Bayburt"</span>,<span class="st">"Bilecik"</span>,<span class="st">"Bingöl"</span>,<span class="st">"Bitlis"</span>,<span class="st">"Bolu"</span>,<span class="st">"Burdur"</span>,<span class="st">"Bursa"</span>,<span class="st">"Çanakkale"</span>,</span>
+<span id="cb12-95"><a href="#cb12-95" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Çankırı"</span>,<span class="st">"Çorum"</span>,<span class="st">"Denizli"</span>,<span class="st">"Diyarbakır"</span>,<span class="st">"Düzce"</span>,<span class="st">"Edirne"</span>,<span class="st">"Elazığ"</span>,</span>
+<span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Erzincan"</span>,<span class="st">"Erzurum"</span>,<span class="st">"Eskişehir"</span>,<span class="st">"Gaziantep"</span>,<span class="st">"Giresun"</span>,<span class="st">"Gümüşhane"</span>,</span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Hakkâri"</span>,<span class="st">"Hatay"</span>,<span class="st">"Iğdır"</span>,<span class="st">"Isparta"</span>,<span class="st">"İstanbul"</span>,<span class="st">"İzmir"</span>,<span class="st">"Kahramanmaraş"</span>,</span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Karabük"</span>,<span class="st">"Karaman"</span>,<span class="st">"Kars"</span>,<span class="st">"Kastamonu"</span>,<span class="st">"Kayseri"</span>,<span class="st">"Kırıkkale"</span>,<span class="st">"Kırklareli"</span>,</span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Kırşehir"</span>,<span class="st">"Kilis"</span>,<span class="st">"Kocaeli"</span>,<span class="st">"Konya"</span>,<span class="st">"Kütahya"</span>,<span class="st">"Malatya"</span>,<span class="st">"Manisa"</span>,</span>
+<span id="cb12-100"><a href="#cb12-100" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mardin"</span>,<span class="st">"Mersin"</span>,<span class="st">"Muğla"</span>,<span class="st">"Muş"</span>,<span class="st">"Nevşehir"</span>,<span class="st">"Niğde"</span>,<span class="st">"Ordu"</span>,<span class="st">"Osmaniye"</span>,</span>
+<span id="cb12-101"><a href="#cb12-101" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Rize"</span>,<span class="st">"Sakarya"</span>,<span class="st">"Samsun"</span>,<span class="st">"Siirt"</span>,<span class="st">"Sinop"</span>,<span class="st">"Sivas"</span>,<span class="st">"Şanlıurfa"</span>,<span class="st">"Şırnak"</span>,</span>
+<span id="cb12-102"><a href="#cb12-102" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Tekirdağ"</span>,<span class="st">"Tokat"</span>,<span class="st">"Trabzon"</span>,<span class="st">"Tunceli"</span>,<span class="st">"Uşak"</span>,<span class="st">"Van"</span>,<span class="st">"Yalova"</span>,<span class="st">"Yozgat"</span>,</span>
+<span id="cb12-103"><a href="#cb12-103" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Zonguldak"</span></span>
+<span id="cb12-104"><a href="#cb12-104" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb12-105"><a href="#cb12-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-106"><a href="#cb12-106" aria-hidden="true" tabindex="-1"></a>code_map <span class="op">=</span> {<span class="st">"TP_AKONUTSAT1_K1"</span>: provinces[<span class="dv">0</span>]}</span>
+<span id="cb12-107"><a href="#cb12-107" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">82</span>):</span>
+<span id="cb12-108"><a href="#cb12-108" aria-hidden="true" tabindex="-1"></a>    code_map[<span class="ss">f"TP_AKONUTSAT1_T</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> provinces[i<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb12-109"><a href="#cb12-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-110"><a href="#cb12-110" aria-hidden="true" tabindex="-1"></a>sales_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> satis.columns <span class="cf">if</span> c <span class="kw">in</span> code_map]</span>
+<span id="cb12-111"><a href="#cb12-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-112"><a href="#cb12-112" aria-hidden="true" tabindex="-1"></a>sales_long <span class="op">=</span> (</span>
+<span id="cb12-113"><a href="#cb12-113" aria-hidden="true" tabindex="-1"></a>    satis.melt(</span>
+<span id="cb12-114"><a href="#cb12-114" aria-hidden="true" tabindex="-1"></a>        id_vars<span class="op">=</span>[<span class="st">"Year"</span>, <span class="st">"Month"</span>],</span>
+<span id="cb12-115"><a href="#cb12-115" aria-hidden="true" tabindex="-1"></a>        value_vars<span class="op">=</span>sales_cols,</span>
+<span id="cb12-116"><a href="#cb12-116" aria-hidden="true" tabindex="-1"></a>        var_name<span class="op">=</span><span class="st">"Code"</span>,</span>
+<span id="cb12-117"><a href="#cb12-117" aria-hidden="true" tabindex="-1"></a>        value_name<span class="op">=</span><span class="st">"Sales"</span></span>
+<span id="cb12-118"><a href="#cb12-118" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-119"><a href="#cb12-119" aria-hidden="true" tabindex="-1"></a>    .assign(Province<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="st">"Code"</span>].<span class="bu">map</span>(code_map))</span>
+<span id="cb12-120"><a href="#cb12-120" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-121"><a href="#cb12-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-122"><a href="#cb12-122" aria-hidden="true" tabindex="-1"></a><span class="co"># Region mapping (example simplified)</span></span>
+<span id="cb12-123"><a href="#cb12-123" aria-hidden="true" tabindex="-1"></a>region_map <span class="op">=</span> {</span>
+<span id="cb12-124"><a href="#cb12-124" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Adana"</span>:<span class="st">"TR62"</span>,<span class="st">"Mersin"</span>:<span class="st">"TR62"</span>,<span class="st">"Ankara"</span>:<span class="st">"TR51"</span>,<span class="st">"İstanbul"</span>:<span class="st">"TR10"</span></span>
+<span id="cb12-125"><a href="#cb12-125" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-126"><a href="#cb12-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-127"><a href="#cb12-127" aria-hidden="true" tabindex="-1"></a>sales_long[<span class="st">"Region_Code"</span>] <span class="op">=</span> sales_long[<span class="st">"Province"</span>].<span class="bu">map</span>(region_map)</span>
+<span id="cb12-128"><a href="#cb12-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-129"><a href="#cb12-129" aria-hidden="true" tabindex="-1"></a>sales_region <span class="op">=</span> (</span>
+<span id="cb12-130"><a href="#cb12-130" aria-hidden="true" tabindex="-1"></a>    sales_long.groupby([<span class="st">"Year"</span>,<span class="st">"Month"</span>,<span class="st">"Region_Code"</span>])[<span class="st">"Sales"</span>].<span class="bu">sum</span>().reset_index()</span>
+<span id="cb12-131"><a href="#cb12-131" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-132"><a href="#cb12-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-133"><a href="#cb12-133" aria-hidden="true" tabindex="-1"></a>kfe_map <span class="op">=</span> {</span>
+<span id="cb12-134"><a href="#cb12-134" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KFE_TR62"</span>:<span class="st">"TR62"</span>,</span>
+<span id="cb12-135"><a href="#cb12-135" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KFE_TR51"</span>:<span class="st">"TR51"</span>,</span>
+<span id="cb12-136"><a href="#cb12-136" aria-hidden="true" tabindex="-1"></a>    <span class="st">"TP_KFE_TR10"</span>:<span class="st">"TR10"</span></span>
+<span id="cb12-137"><a href="#cb12-137" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-138"><a href="#cb12-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-139"><a href="#cb12-139" aria-hidden="true" tabindex="-1"></a>kfe_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> kfe_map <span class="cf">if</span> c <span class="kw">in</span> kfe.columns]</span>
+<span id="cb12-140"><a href="#cb12-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-141"><a href="#cb12-141" aria-hidden="true" tabindex="-1"></a>kfe_long <span class="op">=</span> (</span>
+<span id="cb12-142"><a href="#cb12-142" aria-hidden="true" tabindex="-1"></a>    kfe.melt(</span>
+<span id="cb12-143"><a href="#cb12-143" aria-hidden="true" tabindex="-1"></a>        id_vars<span class="op">=</span>[<span class="st">"Year"</span>,<span class="st">"Month"</span>],</span>
+<span id="cb12-144"><a href="#cb12-144" aria-hidden="true" tabindex="-1"></a>        value_vars<span class="op">=</span>kfe_cols,</span>
+<span id="cb12-145"><a href="#cb12-145" aria-hidden="true" tabindex="-1"></a>        var_name<span class="op">=</span><span class="st">"Code"</span>,</span>
+<span id="cb12-146"><a href="#cb12-146" aria-hidden="true" tabindex="-1"></a>        value_name<span class="op">=</span><span class="st">"House_Price_Index"</span></span>
+<span id="cb12-147"><a href="#cb12-147" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-148"><a href="#cb12-148" aria-hidden="true" tabindex="-1"></a>    .assign(Region_Code<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="st">"Code"</span>].<span class="bu">map</span>(kfe_map))</span>
+<span id="cb12-149"><a href="#cb12-149" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-150"><a href="#cb12-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-151"><a href="#cb12-151" aria-hidden="true" tabindex="-1"></a>table_konut <span class="op">=</span> kfe_long.merge(</span>
+<span id="cb12-152"><a href="#cb12-152" aria-hidden="true" tabindex="-1"></a>    sales_region,</span>
+<span id="cb12-153"><a href="#cb12-153" aria-hidden="true" tabindex="-1"></a>    on<span class="op">=</span>[<span class="st">"Year"</span>,<span class="st">"Month"</span>,<span class="st">"Region_Code"</span>]</span>
+<span id="cb12-154"><a href="#cb12-154" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-155"><a href="#cb12-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-156"><a href="#cb12-156" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-157"><a href="#cb12-157" aria-hidden="true" tabindex="-1"></a><span class="co"># SAVE</span></span>
+<span id="cb12-158"><a href="#cb12-158" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
+<span id="cb12-159"><a href="#cb12-159" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> pd.ExcelWriter(output_file) <span class="im">as</span> writer:</span>
+<span id="cb12-160"><a href="#cb12-160" aria-hidden="true" tabindex="-1"></a>    table_kurlar.to_excel(writer, sheet_name<span class="op">=</span><span class="st">"USD_EUR"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-161"><a href="#cb12-161" aria-hidden="true" tabindex="-1"></a>    table_kredi.to_excel(writer, sheet_name<span class="op">=</span><span class="st">"Expense"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-162"><a href="#cb12-162" aria-hidden="true" tabindex="-1"></a>    table_konut.to_excel(writer, sheet_name<span class="op">=</span><span class="st">"Housing"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="analysis" class="level1">
