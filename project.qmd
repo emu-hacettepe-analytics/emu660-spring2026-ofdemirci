@@ -18,11 +18,11 @@ To answer this question, we made a dataset using four monthly time-series datase
 
 -   Housing Price Index
 
--    Sales of Houses
+-   Sales of Houses
 
 -   Exchange Rates (USD/TRY and EUR/TRY)
 
--   Credit Card Sectoral Expenditures \
+-   Credit Card Sectoral Expenditures\
     \
 
 We chose this topic because the cost of housing has become one of the most important social and economic issues in Türkiye. It is important to know what caused this rise in order to make good decisions about policy and the economy. This problem is also a good fit for a data analytics approach because it needs to combine multiple datasets, do preprocessing, and look at how things change over time and in different areas.
@@ -57,16 +57,16 @@ The data used in this project were obtained from the **Electronic Data Delivery 
 
 The project is based on four datasets:
 
--    **House Price Index (HPI)**\
+-   **House Price Index (HPI)**\
     Monthly housing price index at national and regional levels
 
--    **House Sales Statistics**\
+-   **House Sales Statistics**\
     Monthly housing sales data at the provincial level
 
--    **Exchange Rates (USD, EUR)**\
+-   **Exchange Rates (USD, EUR)**\
     Monthly exchange rate data
 
--    **Credit Card Sectoral Expenditures**\
+-   **Credit Card Sectoral Expenditures**\
     Monthly sector-based credit card spending data
 
 ## 2.2 General Information About Data
@@ -75,13 +75,12 @@ The processed dataset consists of three main analytical tables:
 
 ### 1. Exchange Rate Table
 
--    **Description**:\
+-   **Description**:\
     This table contains the columns Year, Month, USD Conversion Rate, and EUR Conversion Rate.Represents monthly exchange rate movements. These variables are used as indicators of macroeconomic conditions and cost-side pressures that may affect housing prices.
 
 -   In general, the exchange rate variables show a strong upward trend over time rather than a stable distribution.
 
     ```{r}
-    library(dplyr)
     library(ggplot2)
     usd_eur <- Conversion_Rates %>%
       mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
@@ -100,18 +99,17 @@ The processed dataset consists of three main analytical tables:
 
 ### 2. Credit Card Expenditure Table
 
--    **Description**:
+-   **Description**:
+-   This table contains Year, Month, Expense Type, and Quantity.\
+-   Expense Type identifies the spending category, and Quantity gives the corresponding spending amount for that month.
 
-    This table contains Year, Month, Expense Type, and Quantity.\
+<!-- -->
 
-    Expense Type identifies the spending category, and Quantity gives the corresponding spending amount for that month.
-
--    Contains sectoral spending amounts derived from credit card transactions.
+-   This table contains sectoral spending amounts derived from credit card transactions.
 
 -   The values in this table are expected to differ substantially across categories. Some categories such as retail, food, fuel, and e-commerce are likely to have much larger values than others.
 
     ```{r}
-    library(dplyr)
     library(ggplot2)
     expense_quantity <- Expense_Quantity %>%
       mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
@@ -139,7 +137,6 @@ The processed dataset consists of three main analytical tables:
     Region represents the housing price index regions as in NUTS2 level, House Price Index shows the monthly house price index for that region, and Total Sales gives the aggregated monthly house sales value for the same region.
 
     ```{r}
-    library(dplyr)
     library(ggplot2)
 
     konut_index_sales <- Konut_Index_Sales %>%
@@ -159,7 +156,6 @@ The processed dataset consists of three main analytical tables:
     ```
 
 ```{r}
-library(dplyr)
 library(ggplot2)
 
 ggplot(
@@ -181,22 +177,10 @@ ggplot(
 ## Potential Analyses
 
 -   time-series plots of house prices, exchange rates, and sales,
-
-<!-- -->
-
--    regional comparisons of house price growth,
-
-<!-- -->
-
--    correlations between exchange rates and the house price index,
-
-<!-- -->
-
--    relationships between sales volume and housing prices,
-
-<!-- -->
-
--    category-based spending trends over time,
+-   regional comparisons of house price growth,
+-   correlations between exchange rates and the house price index,
+-   relationships between sales volume and housing prices,
+-   category-based spending trends over time,
 
 ## 2.3 Reason of Choice
 
@@ -204,11 +188,11 @@ Housing prices are one of the most important economic and social issues in Türk
 
 All datasets are:
 
--    Consistent in frequency (monthly)
+-   Consistent in frequency (monthly)
 
--    Long enough for trend analysis
+-   Long enough for trend analysis
 
--    Rich enough for regional comparison
+-   Rich enough for regional comparison
 
     This makes it easy for analyzing.
 
@@ -221,7 +205,7 @@ Another key issue was that EVDS datasets use **coded column names** (e.g., `KT2`
 Here you can find our python code.\
 \
 
-``` Py
+``` py
 # We explained the data and the output tables to AI.It gave us this code's first verison.Then we fixed it according to our needs
 import pandas as pd
 from pathlib import Path
