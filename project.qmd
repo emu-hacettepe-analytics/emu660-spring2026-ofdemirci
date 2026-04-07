@@ -1,36 +1,296 @@
 ---
-title: "Project X"
+title: "Why have house prices in Turkey gone up in the last ten years?"
 ---
 
-Welcome to my/our project page.
+Welcome to our project page.
 
 Keep an eye on this space to stay updated with my project activities.
 
-(The titles below are provided as examples; please feel free to adjust them as necessary.)
-
 # 1. Project Overview and Scope
 
-xxxxxx
+We want to look into the following question for this project:\
+\
+Why have house prices in Turkey gone up in the last ten years?\
+\
+To answer this question, we made a dataset using four monthly time-series datasets from the Central Bank of the Republic of Türkiye's (TCMB) Electronic Data Delivery System (EVDS). These datasets have:\
+
+-   Housing Price Index
+
+-    Sales of Houses
+
+-   Exchange Rates (USD/TRY and EUR/TRY)
+
+-   Credit Card Sectoral Expenditures \
+    \
+
+We chose this topic because the cost of housing has become one of the most important social and economic issues in Türkiye. It is important to know what caused this rise in order to make good decisions about policy and the economy. This problem is also a good fit for a data analytics approach because it needs to combine multiple datasets, do preprocessing, and look at how things change over time and in different areas.
+
+We want to find the main things that cause housing prices to go up. Specifically, we want to look at:
+
+-   How exchange rates affect the price of homes
+
+-   The link between changes in housing prices and demand (sales)
+
+-   The function of consumption behavior (credit card expenditure) as an indicator of demand conditions.
+
+-   Differences in how housing works in different regions
 
 # 2. Data
 
-xxxxxx
-
 ## 2.1 Data Source
 
-xxxxxx
+The data used in this project were obtained from the **Electronic Data Delivery System (EVDS)** of the Central Bank of the Republic of Türkiye (TCMB). EVDS provides official, high-frequency economic data and is widely used for academic and professional analysis.
+
+The project is based on four datasets:
+
+-    **House Price Index (HPI)**\
+    Monthly housing price index at national and regional levels
+
+-    **House Sales Statistics**\
+    Monthly housing sales data at the provincial level
+
+-    **Exchange Rates (USD, EUR)**\
+    Monthly exchange rate data
+
+-    **Credit Card Sectoral Expenditures**\
+    Monthly sector-based credit card spending data
 
 ## 2.2 General Information About Data
 
-xxxxxx
+The processed dataset consists of three main analytical tables:
+
+### 1. Exchange Rate Table
+
+-    **Description**:\
+    This table contains the columns Year, Month, USD Conversion Rate, and EUR Conversion Rate.Represents monthly exchange rate movements. These variables are used as indicators of macroeconomic conditions and cost-side pressures that may affect housing prices.
+
+-   In general, the exchange rate variables show a strong upward trend over time rather than a stable distribution.
+
+### 2. Credit Card Expenditure Table
+
+-    **Description**:
+
+    This table contains Year, Month, Expense Type, and Quantity.\
+
+    Expense Type identifies the spending category, and Quantity gives the corresponding spending amount for that month.
+
+-    Contains sectoral spending amounts derived from credit card transactions.
+
+-   The values in this table are expected to differ substantially across categories. Some categories such as retail, food, fuel, and e-commerce are likely to have much larger values than others.
+
+### 3. Housing Panel Dataset
+
+-   **Description**:\
+    This is the main table for the project and contains Year, Month, Region, House Price Index, and Total Sales.
+
+    Region represents the housing price index regions, House Price Index shows the monthly house price index for that region, and Total Sales gives the aggregated monthly house sales value for the same region.
+
+## Potential Analyses
+
+-   time-series plots of house prices, exchange rates, and sales,
+
+<!-- -->
+
+-    regional comparisons of house price growth,
+
+<!-- -->
+
+-    correlations between exchange rates and the house price index,
+
+<!-- -->
+
+-    relationships between sales volume and housing prices,
+
+<!-- -->
+
+-    category-based spending trends over time,
 
 ## 2.3 Reason of Choice
 
-xxxxxx
+Housing prices are one of the most important economic and social issues in Türkiye. The rapid increase in housing prices has significant implications for affordability, investment decisions, and economic stability.
+
+All datasets are:
+
+-    Consistent in frequency (monthly)
+
+-    Long enough for trend analysis
+
+-    Rich enough for regional comparison
+
+    This make it easy for analyzing.
 
 ## 2.4 Preprocessing
 
-xxxxxx
+The raw EVDS datasets were provided in Excel format and contained different structures (wide vs. long) and aggregation levels (province vs. region). We performed preprocessing in Python using pandas to standardize date formats, reshape wide datasets into long format, map categorical codes to meaningful labels, and align all datasets at a consistent monthly and regional level. In particular, house sales data were converted from province-level columns to regional aggregates compatible with the House Price Index. The final result consists of three clean analytical tables ready for further analysis.
+
+Another key issue was that EVDS datasets use **coded column names** (e.g., `KT2`, `T58`, `TR62`) instead of descriptive labels. To make the data interpretable and consistent across sources, we created mapping dictionaries in Python to translate these codes into meaningful categories, provinces, and regions.
+
+Here you can find our python code.\
+\
+
+```{python}
+import pandas as pd
+from pathlib import Path
+
+downloads = Path.home() / "Downloads"
+
+# Files
+kurlar_file = downloads / "Kurlar.xlsx"
+kredi_file = downloads / "Kredi Harcama.xlsx"
+konut_satis_file = downloads / "Konut Satış.xlsx"
+konut_fiyat_file = downloads / "Konut Fiyat Endexi.xlsx"
+
+output_file = downloads / "evds_preprocessed_tables_fixed.xlsx"
+
+# -----------------------------
+# Helper
+# -----------------------------
+def split_year_month(df):
+    df["Tarih"] = pd.to_datetime(df["Tarih"], format="%Y-%m")
+    df["Year"] = df["Tarih"].dt.year
+    df["Month"] = df["Tarih"].dt.month
+    return df
+
+# -----------------------------
+# Read
+# -----------------------------
+kurlar = split_year_month(pd.read_excel(kurlar_file))
+kredi = split_year_month(pd.read_excel(kredi_file))
+satis = split_year_month(pd.read_excel(konut_satis_file))
+kfe = split_year_month(pd.read_excel(konut_fiyat_file))
+
+# -----------------------------
+# TABLE 1: Exchange Rates
+# -----------------------------
+table_kurlar = (
+    kurlar[["Year", "Month", "TP_DK_USD_S_YTL", "TP_DK_EUR_S_YTL"]]
+    .rename(columns={
+        "TP_DK_USD_S_YTL": "USD",
+        "TP_DK_EUR_S_YTL": "EUR"
+    })
+)
+
+# -----------------------------
+# TABLE 2: Credit Expenditures
+# -----------------------------
+expense_type_map = {
+    "TP_KKHARTUT_KT2": "Car Rental",
+    "TP_KKHARTUT_KT3": "Car Sales/Service",
+    "TP_KKHARTUT_KT4": "Fuel",
+    "TP_KKHARTUT_KT5": "Food",
+    "TP_KKHARTUT_KT6": "Direct Marketing",
+    "TP_KKHARTUT_KT7": "Education",
+    "TP_KKHARTUT_KT8": "Electronics",
+    "TP_KKHARTUT_KT9": "Clothing",
+    "TP_KKHARTUT_KT10": "Airlines",
+    "TP_KKHARTUT_KT11": "Services",
+    "TP_KKHARTUT_KT12": "Accommodation",
+    "TP_KKHARTUT_KT13": "Social",
+    "TP_KKHARTUT_KT14": "Entertainment",
+    "TP_KKHARTUT_KT15": "Jewelry",
+    "TP_KKHARTUT_KT16": "Retail",
+    "TP_KKHARTUT_KT17": "Furniture",
+    "TP_KKHARTUT_KT18": "Construction",
+    "TP_KKHARTUT_KT19": "Health",
+    "TP_KKHARTUT_KT20": "Travel",
+    "TP_KKHARTUT_KT21": "Insurance",
+    "TP_KKHARTUT_KT22": "Telecom",
+    "TP_KKHARTUT_KT23": "Hardware",
+    "TP_KKHARTUT_KT24": "Food Service",
+    "TP_KKHARTUT_KT25": "Misc",
+    "TP_KKHARTUT_KT26": "Other",
+    "TP_KKHARTUT_KT50": "E-Commerce"
+}
+
+kredi_cols = [c for c in expense_type_map if c in kredi.columns]
+
+table_kredi = (
+    kredi.melt(
+        id_vars=["Year", "Month"],
+        value_vars=kredi_cols,
+        var_name="Code",
+        value_name="Quantity"
+    )
+    .assign(Expense_Type=lambda x: x["Code"].map(expense_type_map))
+    [["Year", "Month", "Expense_Type", "Quantity"]]
+)
+
+# -----------------------------
+# TABLE 3: Housing Panel
+# -----------------------------
+provinces = [
+    "Adana","Adıyaman","Afyonkarahisar","Ağrı","Aksaray","Amasya","Ankara",
+    "Antalya","Ardahan","Artvin","Aydın","Balıkesir","Bartın","Batman",
+    "Bayburt","Bilecik","Bingöl","Bitlis","Bolu","Burdur","Bursa","Çanakkale",
+    "Çankırı","Çorum","Denizli","Diyarbakır","Düzce","Edirne","Elazığ",
+    "Erzincan","Erzurum","Eskişehir","Gaziantep","Giresun","Gümüşhane",
+    "Hakkâri","Hatay","Iğdır","Isparta","İstanbul","İzmir","Kahramanmaraş",
+    "Karabük","Karaman","Kars","Kastamonu","Kayseri","Kırıkkale","Kırklareli",
+    "Kırşehir","Kilis","Kocaeli","Konya","Kütahya","Malatya","Manisa",
+    "Mardin","Mersin","Muğla","Muş","Nevşehir","Niğde","Ordu","Osmaniye",
+    "Rize","Sakarya","Samsun","Siirt","Sinop","Sivas","Şanlıurfa","Şırnak",
+    "Tekirdağ","Tokat","Trabzon","Tunceli","Uşak","Van","Yalova","Yozgat",
+    "Zonguldak"
+]
+
+code_map = {"TP_AKONUTSAT1_K1": provinces[0]}
+for i in range(2, 82):
+    code_map[f"TP_AKONUTSAT1_T{i}"] = provinces[i-1]
+
+sales_cols = [c for c in satis.columns if c in code_map]
+
+sales_long = (
+    satis.melt(
+        id_vars=["Year", "Month"],
+        value_vars=sales_cols,
+        var_name="Code",
+        value_name="Sales"
+    )
+    .assign(Province=lambda x: x["Code"].map(code_map))
+)
+
+# Region mapping (example simplified)
+region_map = {
+    "Adana":"TR62","Mersin":"TR62","Ankara":"TR51","İstanbul":"TR10"
+}
+
+sales_long["Region_Code"] = sales_long["Province"].map(region_map)
+
+sales_region = (
+    sales_long.groupby(["Year","Month","Region_Code"])["Sales"].sum().reset_index()
+)
+
+kfe_map = {
+    "TP_KFE_TR62":"TR62",
+    "TP_KFE_TR51":"TR51",
+    "TP_KFE_TR10":"TR10"
+}
+
+kfe_cols = [c for c in kfe_map if c in kfe.columns]
+
+kfe_long = (
+    kfe.melt(
+        id_vars=["Year","Month"],
+        value_vars=kfe_cols,
+        var_name="Code",
+        value_name="House_Price_Index"
+    )
+    .assign(Region_Code=lambda x: x["Code"].map(kfe_map))
+)
+
+table_konut = kfe_long.merge(
+    sales_region,
+    on=["Year","Month","Region_Code"]
+)
+
+# -----------------------------
+# SAVE
+# -----------------------------
+with pd.ExcelWriter(output_file) as writer:
+    table_kurlar.to_excel(writer, sheet_name="USD_EUR", index=False)
+    table_kredi.to_excel(writer, sheet_name="Expense", index=False)
+    table_konut.to_excel(writer, sheet_name="Housing", index=False)
+```
 
 # 3. Analysis
 
