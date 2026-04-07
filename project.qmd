@@ -2,6 +2,12 @@
 title: "Why have house prices in Turkey gone up in the last ten years?"
 ---
 
+---
+format:
+  html:
+    code-fold: true
+---
+
 Welcome to our project page.
 
 We are Ömer Furkan Demirci and Fatih Alper Vural
