@@ -9,63 +9,63 @@
   {
     "objectID": "project.html",
     "href": "project.html",
-    "title": "Project X",
+    "title": "Why have house prices in Turkey gone up in the last ten years?",
     "section": "",
-    "text": "Welcome to my/our project page.\nKeep an eye on this space to stay updated with my project activities.\n(The titles below are provided as examples; please feel free to adjust them as necessary.)"
+    "text": "Welcome to our project page.\nKeep an eye on this space to stay updated with my project activities."
   },
   {
     "objectID": "project.html#data-source",
     "href": "project.html#data-source",
-    "title": "Project X",
+    "title": "Why have house prices in Turkey gone up in the last ten years?",
     "section": "2.1 Data Source",
-    "text": "2.1 Data Source\nxxxxxx"
+    "text": "2.1 Data Source\nThe data used in this project were obtained from the Electronic Data Delivery System (EVDS) of the Central Bank of the Republic of Türkiye (TCMB). EVDS provides official, high-frequency economic data and is widely used for academic and professional analysis.\nThe project is based on four datasets:\n\nHouse Price Index (HPI)\nMonthly housing price index at national and regional levels\nHouse Sales Statistics\nMonthly housing sales data at the provincial level\nExchange Rates (USD, EUR)\nMonthly exchange rate data\nCredit Card Sectoral Expenditures\nMonthly sector-based credit card spending data"
   },
   {
     "objectID": "project.html#general-information-about-data",
     "href": "project.html#general-information-about-data",
-    "title": "Project X",
+    "title": "Why have house prices in Turkey gone up in the last ten years?",
     "section": "2.2 General Information About Data",
-    "text": "2.2 General Information About Data\nxxxxxx"
+    "text": "2.2 General Information About Data\nThe processed dataset consists of three main analytical tables:\n\n1. Exchange Rate Table\n\nDescription:\nThis table contains the columns Year, Month, USD Conversion Rate, and EUR Conversion Rate.Represents monthly exchange rate movements. These variables are used as indicators of macroeconomic conditions and cost-side pressures that may affect housing prices.\nIn general, the exchange rate variables show a strong upward trend over time rather than a stable distribution.\n\nlibrary(dplyr)\n\nWarning: package 'dplyr' was built under R version 4.5.3\n\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(ggplot2)\nusd_eur &lt;- Conversion_Rates %&gt;%\n  mutate(Date = as.Date(sprintf(\"%d-%02d-01\", Year, Month)))\n\nggplot(usd_eur, aes(x = Date)) +\n  geom_line(aes(y = USD, color = \"USD\")) +\n  geom_line(aes(y = EUR, color = \"EUR\")) +\n  labs(\n    title = \"Exchange Rates Over Time\",\n    x = \"Date\",\n    y = \"Value\",\n    color = \"Series\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n2. Credit Card Expenditure Table\n\nDescription:\n\nThis table contains Year, Month, Expense Type, and Quantity.\\\n\nExpense Type identifies the spending category, and Quantity gives the corresponding spending amount for that month.\n\nContains sectoral spending amounts derived from credit card transactions.\nThe values in this table are expected to differ substantially across categories. Some categories such as retail, food, fuel, and e-commerce are likely to have much larger values than others.\n\nlibrary(dplyr)\nlibrary(ggplot2)\nexpense_quantity &lt;- Expense_Quantity %&gt;%\n  mutate(Date = as.Date(sprintf(\"%d-%02d-01\", Year, Month)))\n\nggplot(\n  expense_quantity %&gt;%\n    filter(Expense_Type %in% c(\"E-Alışveriş\", \"Çeşitli Gıda\", \"Giyim ve Aksesuar\", \"Benzin ve Yakıt İstasyonları\")),\n  aes(x = Date, y = Quantity, color = Expense_Type)\n) +\n  geom_line() +\n  labs(\n    title = \"Credit Card Expenditures for Selected Categories\",\n    x = \"Date\",\n    y = \"Quantity\",\n    color = \"Expense Type\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\n\n3. Housing Panel Dataset\n\nDescription:\nThis is the main table for the project and contains Year, Month, Region, House Price Index, and Total Sales.\nRegion represents the housing price index regions as in NUTS2 level, House Price Index shows the monthly house price index for that region, and Total Sales gives the aggregated monthly house sales value for the same region.\n\nlibrary(dplyr)\nlibrary(ggplot2)\n\nkonut_index_sales &lt;- Konut_Index_Sales %&gt;%\n  mutate(Date = as.Date(sprintf(\"%d-%02d-01\", Year, Month)))\n\nggplot(\n  konut_index_sales %&gt;% filter(Region == \"Türkiye\"),\n  aes(x = Date, y = Konut_Endeksi)\n) +\n  geom_line() +\n  labs(\n    title = \"House Price Index in Türkiye Over Time\",\n    x = \"Date\",\n    y = \"House Price Index\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\n\nlibrary(dplyr)\nlibrary(ggplot2)\n\nggplot(\n  Konut_Index_Sales %&gt;%\n    mutate(Date = as.Date(sprintf(\"%d-%02d-01\", Year, Month))) %&gt;%\n    filter(Region %in% c(\"Türkiye\", \"İstanbul\", \"İzmir\", \"Ankara\", \"Adana, Mersin\")),\n  aes(x = Date, y = Total_Sales, color = Region)\n) +\n  geom_line() +\n  labs(\n    title = \"Total House Sales for Selected Regions\",\n    x = \"Date\",\n    y = \"Total Sales\",\n    color = \"Region\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "project.html#reason-of-choice",
     "href": "project.html#reason-of-choice",
-    "title": "Project X",
+    "title": "Why have house prices in Turkey gone up in the last ten years?",
     "section": "2.3 Reason of Choice",
-    "text": "2.3 Reason of Choice\nxxxxxx"
+    "text": "2.3 Reason of Choice\nHousing prices are one of the most important economic and social issues in Türkiye. The rapid increase in housing prices has significant implications for affordability, investment decisions, and economic stability.\nAll datasets are:\n\nConsistent in frequency (monthly)\nLong enough for trend analysis\nRich enough for regional comparison\n\nThis makes it easy for analyzing."
   },
   {
     "objectID": "project.html#preprocessing",
     "href": "project.html#preprocessing",
-    "title": "Project X",
+    "title": "Why have house prices in Turkey gone up in the last ten years?",
     "section": "2.4 Preprocessing",
-    "text": "2.4 Preprocessing\nxxxxxx"
+    "text": "2.4 Preprocessing\nThe raw EVDS datasets were provided in Excel format and contained different structures (wide vs. long) and aggregation levels (province vs. region). We performed preprocessing in Python using pandas to standardize date formats, reshape wide datasets into long format, map categorical codes to meaningful labels, and align all datasets at a consistent monthly and regional level. In particular, house sales data were converted from province-level columns to regional aggregates compatible with the House Price Index. The final result consists of three clean analytical tables ready for further analysis.\nAnother key issue was that EVDS datasets use coded column names (e.g., KT2, T58, TR62) instead of descriptive labels. To make the data interpretable and consistent across sources, we created mapping dictionaries in Python to translate these codes into meaningful categories, provinces, and regions.\nHere you can find our python code.\n\n\n# We explained the data and the output tables to AI.It gave us this code's first verison.Then we fixed it according to our needs\nimport pandas as pd\nfrom pathlib import Path\n\ndownloads = Path.home() / \"Downloads\"\n\n# Files\nkurlar_file = downloads / \"Kurlar.xlsx\"\nkredi_file = downloads / \"Kredi Harcama.xlsx\"\nkonut_satis_file = downloads / \"Konut Satış.xlsx\"\nkonut_fiyat_file = downloads / \"Konut Fiyat Endexi.xlsx\"\n\noutput_file = downloads / \"evds_preprocessed_tables_fixed.xlsx\"\n\n# -----------------------------\n# Helper\n# -----------------------------\ndef split_year_month(df):\n    df[\"Tarih\"] = pd.to_datetime(df[\"Tarih\"], format=\"%Y-%m\")\n    df[\"Year\"] = df[\"Tarih\"].dt.year\n    df[\"Month\"] = df[\"Tarih\"].dt.month\n    return df\n\n# -----------------------------\n# Read\n# -----------------------------\nkurlar = split_year_month(pd.read_excel(kurlar_file))\nkredi = split_year_month(pd.read_excel(kredi_file))\nsatis = split_year_month(pd.read_excel(konut_satis_file))\nkfe = split_year_month(pd.read_excel(konut_fiyat_file))\n\n# -----------------------------\n# TABLE 1: Exchange Rates\n# -----------------------------\ntable_kurlar = (\n    kurlar[[\"Year\", \"Month\", \"TP_DK_USD_S_YTL\", \"TP_DK_EUR_S_YTL\"]]\n    .rename(columns={\n        \"TP_DK_USD_S_YTL\": \"USD\",\n        \"TP_DK_EUR_S_YTL\": \"EUR\"\n    })\n)\n\n# -----------------------------\n# TABLE 2: Credit Expenditures\n# -----------------------------\nexpense_type_map = {\n    \"TP_KKHARTUT_KT2\": \"Car Rental\",\n    \"TP_KKHARTUT_KT3\": \"Car Sales/Service\",\n    \"TP_KKHARTUT_KT4\": \"Fuel\",\n    \"TP_KKHARTUT_KT5\": \"Food\",\n    \"TP_KKHARTUT_KT6\": \"Direct Marketing\",\n    \"TP_KKHARTUT_KT7\": \"Education\",\n    \"TP_KKHARTUT_KT8\": \"Electronics\",\n    \"TP_KKHARTUT_KT9\": \"Clothing\",\n    \"TP_KKHARTUT_KT10\": \"Airlines\",\n    \"TP_KKHARTUT_KT11\": \"Services\",\n    \"TP_KKHARTUT_KT12\": \"Accommodation\",\n    \"TP_KKHARTUT_KT13\": \"Social\",\n    \"TP_KKHARTUT_KT14\": \"Entertainment\",\n    \"TP_KKHARTUT_KT15\": \"Jewelry\",\n    \"TP_KKHARTUT_KT16\": \"Retail\",\n    \"TP_KKHARTUT_KT17\": \"Furniture\",\n    \"TP_KKHARTUT_KT18\": \"Construction\",\n    \"TP_KKHARTUT_KT19\": \"Health\",\n    \"TP_KKHARTUT_KT20\": \"Travel\",\n    \"TP_KKHARTUT_KT21\": \"Insurance\",\n    \"TP_KKHARTUT_KT22\": \"Telecom\",\n    \"TP_KKHARTUT_KT23\": \"Hardware\",\n    \"TP_KKHARTUT_KT24\": \"Food Service\",\n    \"TP_KKHARTUT_KT25\": \"Misc\",\n    \"TP_KKHARTUT_KT26\": \"Other\",\n    \"TP_KKHARTUT_KT50\": \"E-Commerce\"\n}\n\nkredi_cols = [c for c in expense_type_map if c in kredi.columns]\n\ntable_kredi = (\n    kredi.melt(\n        id_vars=[\"Year\", \"Month\"],\n        value_vars=kredi_cols,\n        var_name=\"Code\",\n        value_name=\"Quantity\"\n    )\n    .assign(Expense_Type=lambda x: x[\"Code\"].map(expense_type_map))\n    [[\"Year\", \"Month\", \"Expense_Type\", \"Quantity\"]]\n)\n\n# -----------------------------\n# TABLE 3: Housing Panel\n# -----------------------------\nprovinces = [\n    \"Adana\",\"Adıyaman\",\"Afyonkarahisar\",\"Ağrı\",\"Aksaray\",\"Amasya\",\"Ankara\",\n    \"Antalya\",\"Ardahan\",\"Artvin\",\"Aydın\",\"Balıkesir\",\"Bartın\",\"Batman\",\n    \"Bayburt\",\"Bilecik\",\"Bingöl\",\"Bitlis\",\"Bolu\",\"Burdur\",\"Bursa\",\"Çanakkale\",\n    \"Çankırı\",\"Çorum\",\"Denizli\",\"Diyarbakır\",\"Düzce\",\"Edirne\",\"Elazığ\",\n    \"Erzincan\",\"Erzurum\",\"Eskişehir\",\"Gaziantep\",\"Giresun\",\"Gümüşhane\",\n    \"Hakkâri\",\"Hatay\",\"Iğdır\",\"Isparta\",\"İstanbul\",\"İzmir\",\"Kahramanmaraş\",\n    \"Karabük\",\"Karaman\",\"Kars\",\"Kastamonu\",\"Kayseri\",\"Kırıkkale\",\"Kırklareli\",\n    \"Kırşehir\",\"Kilis\",\"Kocaeli\",\"Konya\",\"Kütahya\",\"Malatya\",\"Manisa\",\n    \"Mardin\",\"Mersin\",\"Muğla\",\"Muş\",\"Nevşehir\",\"Niğde\",\"Ordu\",\"Osmaniye\",\n    \"Rize\",\"Sakarya\",\"Samsun\",\"Siirt\",\"Sinop\",\"Sivas\",\"Şanlıurfa\",\"Şırnak\",\n    \"Tekirdağ\",\"Tokat\",\"Trabzon\",\"Tunceli\",\"Uşak\",\"Van\",\"Yalova\",\"Yozgat\",\n    \"Zonguldak\"\n]\n\ncode_map = {\"TP_AKONUTSAT1_K1\": provinces[0]}\nfor i in range(2, 82):\n    code_map[f\"TP_AKONUTSAT1_T{i}\"] = provinces[i-1]\n\nsales_cols = [c for c in satis.columns if c in code_map]\n\nsales_long = (\n    satis.melt(\n        id_vars=[\"Year\", \"Month\"],\n        value_vars=sales_cols,\n        var_name=\"Code\",\n        value_name=\"Sales\"\n    )\n    .assign(Province=lambda x: x[\"Code\"].map(code_map))\n)\n\n# Region mapping (example simplified)\nregion_map = {\n    \"Adana\":\"TR62\",\"Mersin\":\"TR62\",\"Ankara\":\"TR51\",\"İstanbul\":\"TR10\"\n}\n\nsales_long[\"Region_Code\"] = sales_long[\"Province\"].map(region_map)\n\nsales_region = (\n    sales_long.groupby([\"Year\",\"Month\",\"Region_Code\"])[\"Sales\"].sum().reset_index()\n)\n\nkfe_map = {\n    \"TP_KFE_TR62\":\"TR62\",\n    \"TP_KFE_TR51\":\"TR51\",\n    \"TP_KFE_TR10\":\"TR10\"\n}\n\nkfe_cols = [c for c in kfe_map if c in kfe.columns]\n\nkfe_long = (\n    kfe.melt(\n        id_vars=[\"Year\",\"Month\"],\n        value_vars=kfe_cols,\n        var_name=\"Code\",\n        value_name=\"House_Price_Index\"\n    )\n    .assign(Region_Code=lambda x: x[\"Code\"].map(kfe_map))\n)\n\ntable_konut = kfe_long.merge(\n    sales_region,\n    on=[\"Year\",\"Month\",\"Region_Code\"]\n)\n\n# -----------------------------\n# SAVE\n# -----------------------------\nwith pd.ExcelWriter(output_file) as writer:\n    table_kurlar.to_excel(writer, sheet_name=\"USD_EUR\", index=False)\n    table_kredi.to_excel(writer, sheet_name=\"Expense\", index=False)\n    table_konut.to_excel(writer, sheet_name=\"Housing\", index=False)"
   },
   {
     "objectID": "project.html#exploratory-data-analysis",
     "href": "project.html#exploratory-data-analysis",
-    "title": "Project X",
+    "title": "Why have house prices in Turkey gone up in the last ten years?",
     "section": "3.1 Exploratory Data Analysis",
     "text": "3.1 Exploratory Data Analysis\nxxxxxx"
   },
   {
     "objectID": "project.html#trend-analysis",
     "href": "project.html#trend-analysis",
-    "title": "Project X",
+    "title": "Why have house prices in Turkey gone up in the last ten years?",
     "section": "3.2 Trend Analysis",
     "text": "3.2 Trend Analysis\nxxxxxx"
   },
   {
     "objectID": "project.html#model-fitting",
     "href": "project.html#model-fitting",
-    "title": "Project X",
+    "title": "Why have house prices in Turkey gone up in the last ten years?",
     "section": "3.3 Model Fitting",
     "text": "3.3 Model Fitting\nxxxxxx"
   },
   {
     "objectID": "project.html#results",
     "href": "project.html#results",
-    "title": "Project X",
+    "title": "Why have house prices in Turkey gone up in the last ten years?",
     "section": "3.4 Results",
     "text": "3.4 Results\nxxxxxx"
   },
@@ -166,5 +166,12 @@
     "crumbs": [
       "Assignment 1"
     ]
+  },
+  {
+    "objectID": "project.html#potential-analyses",
+    "href": "project.html#potential-analyses",
+    "title": "Why have house prices in Turkey gone up in the last ten years?",
+    "section": "Potential Analyses",
+    "text": "Potential Analyses\n\ntime-series plots of house prices, exchange rates, and sales,\n\n\n\nregional comparisons of house price growth,\n\n\n\ncorrelations between exchange rates and the house price index,\n\n\n\nrelationships between sales volume and housing prices,\n\n\n\ncategory-based spending trends over time,"
   }
 ]

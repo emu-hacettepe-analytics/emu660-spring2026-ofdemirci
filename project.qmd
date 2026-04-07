@@ -4,6 +4,8 @@ title: "Why have house prices in Turkey gone up in the last ten years?"
 
 Welcome to our project page.
 
+We are Ömer Furkan Demirci and Fatih Alper Vural
+
 Keep an eye on this space to stay updated with my project activities.
 
 # 1. Project Overview and Scope
@@ -37,6 +39,18 @@ We want to find the main things that cause housing prices to go up. Specifically
 
 # 2. Data
 
+You can see Our data in R Data format below.
+
+[Project Data](https://github.com/emu-hacettepe-analytics/emu660-spring2026-ofdemirci/blob/e273d93492dc0a2ea56f85a472a398fe4909c2d7/Data/Project_Data.RData)
+
+```{r}
+url <- "https://raw.githubusercontent.com/emu-hacettepe-analytics/emu660-spring2026-ofdemirci/main/Data/Project_Data.RData"
+download.file(url, destfile = "Project_Data.RData", mode = "wb")
+load("Project_Data.RData")
+
+ls()
+```
+
 ## 2.1 Data Source
 
 The data used in this project were obtained from the **Electronic Data Delivery System (EVDS)** of the Central Bank of the Republic of Türkiye (TCMB). EVDS provides official, high-frequency economic data and is widely used for academic and professional analysis.
@@ -66,6 +80,24 @@ The processed dataset consists of three main analytical tables:
 
 -   In general, the exchange rate variables show a strong upward trend over time rather than a stable distribution.
 
+    ```{r}
+    library(dplyr)
+    library(ggplot2)
+    usd_eur <- Conversion_Rates %>%
+      mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
+
+    ggplot(usd_eur, aes(x = Date)) +
+      geom_line(aes(y = USD, color = "USD")) +
+      geom_line(aes(y = EUR, color = "EUR")) +
+      labs(
+        title = "Exchange Rates Over Time",
+        x = "Date",
+        y = "Value",
+        color = "Series"
+      ) +
+      theme_minimal()
+    ```
+
 ### 2. Credit Card Expenditure Table
 
 -    **Description**:
@@ -78,12 +110,73 @@ The processed dataset consists of three main analytical tables:
 
 -   The values in this table are expected to differ substantially across categories. Some categories such as retail, food, fuel, and e-commerce are likely to have much larger values than others.
 
+    ```{r}
+    library(dplyr)
+    library(ggplot2)
+    expense_quantity <- Expense_Quantity %>%
+      mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
+
+    ggplot(
+      expense_quantity %>%
+        filter(Expense_Type %in% c("E-Alışveriş", "Çeşitli Gıda", "Giyim ve Aksesuar", "Benzin ve Yakıt İstasyonları")),
+      aes(x = Date, y = Quantity, color = Expense_Type)
+    ) +
+      geom_line() +
+      labs(
+        title = "Credit Card Expenditures for Selected Categories",
+        x = "Date",
+        y = "Quantity",
+        color = "Expense Type"
+      ) +
+      theme_minimal()
+    ```
+
 ### 3. Housing Panel Dataset
 
 -   **Description**:\
     This is the main table for the project and contains Year, Month, Region, House Price Index, and Total Sales.
 
     Region represents the housing price index regions as in NUTS2 level, House Price Index shows the monthly house price index for that region, and Total Sales gives the aggregated monthly house sales value for the same region.
+
+    ```{r}
+    library(dplyr)
+    library(ggplot2)
+
+    konut_index_sales <- Konut_Index_Sales %>%
+      mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
+
+    ggplot(
+      konut_index_sales %>% filter(Region == "Türkiye"),
+      aes(x = Date, y = Konut_Endeksi)
+    ) +
+      geom_line() +
+      labs(
+        title = "House Price Index in Türkiye Over Time",
+        x = "Date",
+        y = "House Price Index"
+      ) +
+      theme_minimal()
+    ```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+ggplot(
+  Konut_Index_Sales %>%
+    mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month))) %>%
+    filter(Region %in% c("Türkiye", "İstanbul", "İzmir", "Ankara", "Adana, Mersin")),
+  aes(x = Date, y = Total_Sales, color = Region)
+) +
+  geom_line() +
+  labs(
+    title = "Total House Sales for Selected Regions",
+    x = "Date",
+    y = "Total Sales",
+    color = "Region"
+  ) +
+  theme_minimal()
+```
 
 ## Potential Analyses
 
@@ -128,7 +221,7 @@ Another key issue was that EVDS datasets use **coded column names** (e.g., `KT2`
 Here you can find our python code.\
 \
 
-```{python}
+``` Py
 # We explained the data and the output tables to AI.It gave us this code's first verison.Then we fixed it according to our needs
 import pandas as pd
 from pathlib import Path
