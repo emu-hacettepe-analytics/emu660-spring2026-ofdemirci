@@ -83,7 +83,7 @@ The processed dataset consists of three main analytical tables:
 -   **Description**:\
     This is the main table for the project and contains Year, Month, Region, House Price Index, and Total Sales.
 
-    Region represents the housing price index regions, House Price Index shows the monthly house price index for that region, and Total Sales gives the aggregated monthly house sales value for the same region.
+    Region represents the housing price index regions as in NUTS2 level, House Price Index shows the monthly house price index for that region, and Total Sales gives the aggregated monthly house sales value for the same region.
 
 ## Potential Analyses
 
@@ -117,7 +117,7 @@ All datasets are:
 
 -    Rich enough for regional comparison
 
-    This make it easy for analyzing.
+    This makes it easy for analyzing.
 
 ## 2.4 Preprocessing
 
@@ -129,6 +129,7 @@ Here you can find our python code.\
 \
 
 ```{python}
+# We explained the data and the output tables to AI.It gave us this code's first verison.Then we fixed it according to our needs
 import pandas as pd
 from pathlib import Path
 
