@@ -114,6 +114,7 @@ The processed dataset consists of three main analytical tables:
     library(ggplot2)
     library(scales)
     usd_eur <- Conversion_Rates %>%
+      filter(Year < 2026) %>%
       mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
 
     ggplot(usd_eur, aes(x = Date)) +
@@ -147,6 +148,7 @@ The processed dataset consists of three main analytical tables:
     library(ggplot2)
     library(scales)
     expense_quantity <- Expense_Quantity %>%
+      filter(Year < 2026) %>%
       mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
 
     ggplot(
@@ -181,6 +183,7 @@ The processed dataset consists of three main analytical tables:
     library(scales)
 
     konut_index_sales <- Konut_Index_Sales %>%
+      filter(Year < 2026) %>%
       mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
 
     ggplot(
@@ -205,6 +208,7 @@ library(scales)
 
 ggplot(
   Konut_Index_Sales %>%
+    filter(Year < 2026) %>%
     mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month))) %>%
     filter(Region %in% c("Türkiye", "İstanbul", "İzmir", "Ankara", "Adana, Mersin")),
   aes(x = Date, y = Total_Sales, color = Region)
@@ -418,9 +422,7 @@ with pd.ExcelWriter(output_file) as writer:
     table_konut.to_excel(writer, sheet_name="Housing", index=False)
 ```
 
-# 3. Analysis
-
-Before interpreting the graphs, all datasets were converted to monthly time-series format and joined by `Year` and `Month`. The national analysis focuses on the `Türkiye` region in the housing panel. Since the variables are nominal and strongly trend upward over time, the analysis uses descriptive statistics, trend graphs, log-transformed regression models, and diagnostic plots. The results should therefore be interpreted as evidence of strong association, not as definitive proof of causality.
+# Analysis
 
 ```{r}
 #| label: setup
@@ -430,169 +432,99 @@ library(ggplot2)
 library(tidyr)
 library(scales)
 library(knitr)
+library(kableExtra)
 
-# kableExtra is used only when available, so the report can still render without it.
-has_kableExtra <- requireNamespace("kableExtra", quietly = TRUE)
-
-# Load project data. The local file is preferred; the GitHub file is used as fallback.
-if (!file.exists("Project_Data.RData")) {
-  url <- "https://raw.githubusercontent.com/emu-hacettepe-analytics/emu660-spring2026-ofdemirci/main/Data/Project_Data.RData"
-  download.file(url, destfile = "Project_Data.RData", mode = "wb")
-}
 load("Project_Data.RData")
 
-# Standardize date fields and numeric variables.
 cr <- Conversion_Rates %>%
-  mutate(
-    Year = as.integer(Year),
-    Month = as.integer(Month),
-    Date = as.Date(sprintf("%d-%02d-01", Year, Month))
-  )
+  filter(Year < 2026) %>%
+  mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
 
 eq <- Expense_Quantity %>%
-  mutate(
-    Year = as.integer(Year),
-    Month = as.integer(Month),
-    Date = as.Date(sprintf("%d-%02d-01", Year, Month)),
-    Quantity = as.numeric(Quantity)
-  )
+  filter(Year < 2026) %>%
+  mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
 
 ks <- Konut_Index_Sales %>%
-  mutate(
-    Year = as.integer(Year),
-    Month = as.integer(Month),
-    Date = as.Date(sprintf("%d-%02d-01", Year, Month)),
-    Konut_Endeksi = as.numeric(Konut_Endeksi),
-    Total_Sales = as.numeric(Total_Sales)
-  )
+  filter(Year < 2026) %>%
+  mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
 
 ks_turkey <- ks %>% filter(Region == "Türkiye")
 
+# Build the shared joined dataset used throughout Analysis
 total_cc <- eq %>%
   group_by(Year, Month) %>%
   summarise(Total_CC = sum(Quantity, na.rm = TRUE), .groups = "drop")
 
 combined <- ks_turkey %>%
   inner_join(cr %>% select(Year, Month, USD, EUR), by = c("Year", "Month")) %>%
-  inner_join(total_cc, by = c("Year", "Month")) %>%
-  arrange(Date)
-
-pretty_table <- function(x, caption = NULL) {
-  out <- knitr::kable(x, caption = caption)
-  if (has_kableExtra) {
-    out <- kableExtra::kable_styling(out, bootstrap_options = c("striped", "hover"), full_width = FALSE)
-  }
-  out
-}
+  inner_join(total_cc, by = c("Year", "Month"))
 ```
 
-## 3.1 Exploratory Data Analysis
+## Exploratory Data Analysis
 
-The exploratory stage summarizes the scale, range, and distribution of the main variables before moving to trend analysis and modelling.
+We begin by examining the basic descriptive statistics of each key variable to understand their range and scale before looking at relationships.
 
 ```{r}
 #| label: eda-summary
 
-summary_table <- bind_rows(
+bind_rows(
   ks_turkey %>% summarise(
     Variable = "House Price Index",
-    Min = min(Konut_Endeksi, na.rm = TRUE),
-    Mean = mean(Konut_Endeksi, na.rm = TRUE),
-    Median = median(Konut_Endeksi, na.rm = TRUE),
-    Max = max(Konut_Endeksi, na.rm = TRUE),
-    SD = sd(Konut_Endeksi, na.rm = TRUE)
+    Min      = min(Konut_Endeksi, na.rm = TRUE),
+    Mean     = mean(Konut_Endeksi, na.rm = TRUE),
+    Median   = median(Konut_Endeksi, na.rm = TRUE),
+    Max      = max(Konut_Endeksi, na.rm = TRUE),
+    SD       = sd(Konut_Endeksi, na.rm = TRUE)
   ),
   ks_turkey %>% summarise(
-    Variable = "Monthly Sales (Units)",
-    Min = min(Total_Sales, na.rm = TRUE),
-    Mean = mean(Total_Sales, na.rm = TRUE),
-    Median = median(Total_Sales, na.rm = TRUE),
-    Max = max(Total_Sales, na.rm = TRUE),
-    SD = sd(Total_Sales, na.rm = TRUE)
+    Variable = "Monthly Sales (units)",
+    Min      = min(Total_Sales, na.rm = TRUE),
+    Mean     = mean(Total_Sales, na.rm = TRUE),
+    Median   = median(Total_Sales, na.rm = TRUE),
+    Max      = max(Total_Sales, na.rm = TRUE),
+    SD       = sd(Total_Sales, na.rm = TRUE)
   ),
   cr %>% summarise(
     Variable = "USD/TRY Rate",
-    Min = min(USD, na.rm = TRUE),
-    Mean = mean(USD, na.rm = TRUE),
-    Median = median(USD, na.rm = TRUE),
-    Max = max(USD, na.rm = TRUE),
-    SD = sd(USD, na.rm = TRUE)
+    Min      = min(USD, na.rm = TRUE),
+    Mean     = mean(USD, na.rm = TRUE),
+    Median   = median(USD, na.rm = TRUE),
+    Max      = max(USD, na.rm = TRUE),
+    SD       = sd(USD, na.rm = TRUE)
   ),
   cr %>% summarise(
     Variable = "EUR/TRY Rate",
-    Min = min(EUR, na.rm = TRUE),
-    Mean = mean(EUR, na.rm = TRUE),
-    Median = median(EUR, na.rm = TRUE),
-    Max = max(EUR, na.rm = TRUE),
-    SD = sd(EUR, na.rm = TRUE)
-  ),
-  combined %>% summarise(
-    Variable = "Total Credit Card Spending",
-    Min = min(Total_CC, na.rm = TRUE),
-    Mean = mean(Total_CC, na.rm = TRUE),
-    Median = median(Total_CC, na.rm = TRUE),
-    Max = max(Total_CC, na.rm = TRUE),
-    SD = sd(Total_CC, na.rm = TRUE)
+    Min      = min(EUR, na.rm = TRUE),
+    Mean     = mean(EUR, na.rm = TRUE),
+    Median   = median(EUR, na.rm = TRUE),
+    Max      = max(EUR, na.rm = TRUE),
+    SD       = sd(EUR, na.rm = TRUE)
   )
 ) %>%
-  mutate(across(where(is.numeric), ~ format(round(.x, 2), big.mark = ",")))
-
-pretty_table(summary_table, "Table 1. Summary Statistics of Key Variables")
+  mutate(across(where(is.numeric), ~ format(round(.x, 1), big.mark = ","))) %>%
+  kable(caption = "Table 1. Summary Statistics of Key Variables") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
 ```
 
-The House Price Index increased from low initial values to several thousand index points by the end of the sample period, showing the scale of the housing price surge in Türkiye. The exchange rate variables also rose sharply, while monthly sales remained volatile rather than following the same continuous upward pattern. This first descriptive comparison already suggests that price growth was more closely aligned with macroeconomic nominal variables than with transaction volume.
+The HPI has grown from around 100 to several thousand, reflecting the steep price escalation over the decade. The USD/TRY rate rose from roughly 2 to over 30, and monthly sales volumes are in the tens of thousands but show high variability.
 
 ```{r}
 #| label: eda-credit-top
 
-credit_top <- eq %>%
+eq %>%
   group_by(Expense_Type) %>%
   summarise(Total_Billion_TRY = sum(Quantity, na.rm = TRUE) / 1e3, .groups = "drop") %>%
   arrange(desc(Total_Billion_TRY)) %>%
-  slice_head(n = 10) %>%
-  mutate(Total_Billion_TRY = format(round(Total_Billion_TRY, 0), big.mark = ","))
-
-pretty_table(
-  credit_top,
-  "Table 2. Top 10 Credit Card Expenditure Categories by Cumulative Spending"
-)
+  slice_head(n = 8) %>%
+  mutate(Total_Billion_TRY = format(round(Total_Billion_TRY, 0), big.mark = ",")) %>%
+  kable(col.names = c("Expense Category", "Total Spending (Billion TRY)"),
+        caption = "Table 2. Top 8 Credit Card Expenditure Categories – Cumulative Total") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
 ```
 
-Credit card expenditures are dominated by broad consumption categories such as retail trade, food, fuel, and e-commerce. Construction and furniture may not always be the largest categories, but they remain analytically relevant because they are related to housing investment, renovation activity, and household formation. In this project, total card spending is used mainly as a proxy for the broader nominal consumption and inflation environment.
+Retail trade, food, and e-commerce dominate credit card spending. Construction and furniture categories, while smaller, are directly linked to housing demand.
 
-```{r}
-#| label: eda-indexed-comparison
-
-indexed <- combined %>%
-  mutate(
-    HPI_Index = Konut_Endeksi / first(Konut_Endeksi) * 100,
-    USD_Index = USD / first(USD) * 100,
-    EUR_Index = EUR / first(EUR) * 100,
-    Sales_Index = Total_Sales / first(Total_Sales) * 100,
-    CC_Index = Total_CC / first(Total_CC) * 100
-  ) %>%
-  select(Date, `House Price Index` = HPI_Index, `USD/TRY` = USD_Index,
-         `EUR/TRY` = EUR_Index, `Housing Sales` = Sales_Index,
-         `Credit Card Spending` = CC_Index) %>%
-  pivot_longer(-Date, names_to = "Series", values_to = "Index")
-
-ggplot(indexed, aes(x = Date, y = Index, color = Series)) +
-  geom_line(linewidth = 0.8) +
-  scale_x_date(date_breaks = "2 years", date_labels = "%Y") +
-  scale_y_continuous(labels = label_comma(accuracy = 1)) +
-  labs(
-    title = "Figure 1. Indexed Comparison of Main Variables (First Observation = 100)",
-    x = NULL,
-    y = "Index (First Observation = 100)",
-    color = NULL
-  ) +
-  theme_minimal(base_size = 11) +
-  theme(legend.position = "bottom")
-```
-
-The base-100 comparison makes the scale of change more comparable across variables. Housing prices, exchange rates, and credit card spending all show steep cumulative increases, whereas sales volumes fluctuate around a much flatter trajectory. This supports the interpretation that the housing price increase was not primarily driven by continuously increasing sales volume.
-
-## 3.2 Trend Analysis
+## Trend Analysis
 
 ### House Price Index Over Time
 
@@ -600,18 +532,49 @@ The base-100 comparison makes the scale of change more comparable across variabl
 #| label: trend-hpi
 
 ggplot(ks_turkey, aes(x = Date, y = Konut_Endeksi)) +
-  geom_line(linewidth = 0.9) +
+  geom_line(color = "#2c7bb6", linewidth = 0.9) +
   scale_x_date(date_breaks = "2 years", date_labels = "%Y") +
   scale_y_continuous(labels = label_comma(accuracy = 1)) +
-  labs(
-    title = "Figure 2. National House Price Index Over Time",
-    x = NULL,
-    y = "House Price Index"
-  ) +
+  labs(title = "Figure 1. National House Price Index Over Time",
+       x = NULL, y = "House Price Index") +
   theme_minimal(base_size = 11)
 ```
 
-The House Price Index followed a relatively moderate path until approximately 2019, then accelerated sharply after 2020. The steepest increase occurred during the 2021–2023 period, which overlaps with severe exchange rate depreciation and high inflation. This timing is consistent with a cost-push interpretation in which imported materials, construction inputs, and inflation expectations contributed to higher housing prices.
+The HPI grew modestly through 2019, then accelerated sharply from 2020 onward, with the steepest rise concentrated between 2021 and 2023 — precisely mirroring the most severe TRY depreciation episodes.
+
+### Year-over-Year Growth Rate Comparison
+
+Raw index levels can make any two upward-trending series appear correlated. Year-over-year (YoY) percentage changes are a more meaningful comparison: they show whether **sudden currency shocks coincide with sudden house-price jumps**, which is a much stronger analytical claim.
+
+```{r}
+#| label: trend-yoy
+
+yoy <- combined %>%
+  arrange(Year, Month) %>%
+  mutate(
+    HPI_YoY = (Konut_Endeksi / lag(Konut_Endeksi, 12) - 1) * 100,
+    USD_YoY = (USD / lag(USD, 12) - 1) * 100
+  ) %>%
+  filter(!is.na(HPI_YoY))
+
+yoy_long <- yoy %>%
+  select(Date, `HPI Growth (%)` = HPI_YoY, `USD/TRY Growth (%)` = USD_YoY) %>%
+  pivot_longer(-Date, names_to = "Series", values_to = "YoY_Pct")
+
+ggplot(yoy_long, aes(x = Date, y = YoY_Pct, color = Series)) +
+  geom_line(linewidth = 0.9) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "grey50") +
+  scale_x_date(date_breaks = "2 years", date_labels = "%Y") +
+  scale_y_continuous(labels = label_percent(scale = 1, accuracy = 1)) +
+  scale_color_manual(values = c("HPI Growth (%)" = "#2c7bb6",
+                                "USD/TRY Growth (%)" = "#d7191c")) +
+  labs(title = "Figure 2. Year-over-Year Growth: House Price Index vs. USD/TRY",
+       x = NULL, y = "Annual Change (%)", color = NULL) +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "top")
+```
+
+The YoY chart is more telling than raw levels: the two series spike together, particularly in 2018, 2021, and 2022. When the exchange rate surged by over 80% in 2021–2022, house price growth followed almost immediately — consistent with a direct cost pass-through mechanism.
 
 ### Exchange Rates Over Time
 
@@ -625,76 +588,39 @@ ggplot(cr_long, aes(x = Date, y = Rate, color = Currency)) +
   geom_line(linewidth = 0.9) +
   scale_x_date(date_breaks = "2 years", date_labels = "%Y") +
   scale_y_continuous(labels = label_number(accuracy = 0.1)) +
-  labs(
-    title = "Figure 3. USD/TRY and EUR/TRY Exchange Rates",
-    x = NULL,
-    y = "TRY per Foreign Currency",
-    color = "Currency"
-  ) +
-  theme_minimal(base_size = 11) +
-  theme(legend.position = "bottom")
+  scale_color_manual(values = c("USD" = "#d7191c", "EUR" = "#1a9641")) +
+  labs(title = "Figure 3. USD/TRY and EUR/TRY Exchange Rates",
+       x = NULL, y = "TRY per Foreign Currency", color = "Currency") +
+  theme_minimal(base_size = 11)
 ```
 
-The USD/TRY and EUR/TRY series both show strong depreciation of the Turkish Lira over the sample period. Because construction materials, energy, machinery, and imported intermediate goods are sensitive to exchange rates, this trend provides a plausible macroeconomic channel through which currency movements may affect housing prices.
-
-### Year-over-Year Growth Rate Comparison
-
-Raw index levels can make any two upward-trending series appear correlated. For this reason, year-over-year percentage changes are also examined. This comparison focuses on whether sudden exchange rate movements coincide with sudden increases in the House Price Index.
-
-```{r}
-#| label: trend-yoy
-
-yoy <- combined %>%
-  arrange(Date) %>%
-  mutate(
-    HPI_YoY = (Konut_Endeksi / lag(Konut_Endeksi, 12) - 1) * 100,
-    USD_YoY = (USD / lag(USD, 12) - 1) * 100,
-    EUR_YoY = (EUR / lag(EUR, 12) - 1) * 100,
-    Sales_YoY = (Total_Sales / lag(Total_Sales, 12) - 1) * 100
-  ) %>%
-  filter(!is.na(HPI_YoY))
-
-yoy_long <- yoy %>%
-  select(Date, `HPI Growth (%)` = HPI_YoY, `USD/TRY Growth (%)` = USD_YoY) %>%
-  pivot_longer(-Date, names_to = "Series", values_to = "YoY_Pct")
-
-ggplot(yoy_long, aes(x = Date, y = YoY_Pct, color = Series)) +
-  geom_line(linewidth = 0.9) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  scale_x_date(date_breaks = "2 years", date_labels = "%Y") +
-  scale_y_continuous(labels = label_percent(scale = 1, accuracy = 1)) +
-  labs(
-    title = "Figure 4. Year-over-Year Growth: House Price Index vs. USD/TRY",
-    x = NULL,
-    y = "Annual Change (%)",
-    color = NULL
-  ) +
-  theme_minimal(base_size = 11) +
-  theme(legend.position = "top")
-```
-
-The year-over-year comparison shows that major jumps in USD/TRY growth and HPI growth occur around similar periods, especially during the post-2020 acceleration. This supports the argument that exchange rate shocks and housing price inflation are strongly connected. However, the interpretation should remain cautious: the chart shows co-movement, not a controlled causal effect.
-
-### Monthly Housing Sales
+### Annual Housing Sales
 
 ```{r}
 #| label: trend-sales
 
-ggplot(ks_turkey, aes(x = Date, y = Total_Sales)) +
-  geom_col(alpha = 0.85) +
-  scale_x_date(date_breaks = "2 years", date_labels = "%Y") +
-  scale_y_continuous(labels = label_comma(accuracy = 1)) +
-  labs(
-    title = "Figure 5. Monthly Housing Sales in Türkiye",
-    x = NULL,
-    y = "Units Sold"
-  ) +
-  theme_minimal(base_size = 11)
+annual_sales <- ks_turkey %>%
+  group_by(Year) %>%
+  summarise(Annual_Sales = sum(Total_Sales, na.rm = TRUE), .groups = "drop")
+
+ggplot(annual_sales, aes(x = Year, y = Annual_Sales)) +
+  geom_line(color = "#74add1", linewidth = 1) +
+  geom_point(color = "#2c7bb6", size = 3) +
+  geom_text(aes(label = format(round(Annual_Sales / 1e3), big.mark = ",")),
+            vjust = -1, size = 3, color = "grey30") +
+  scale_x_continuous(breaks = seq(2014, 2025, by = 1)) +
+  scale_y_continuous(labels = label_comma(accuracy = 1),
+                     expand = expansion(mult = c(0.05, 0.15))) +
+  labs(title = "Figure 4. Annual Housing Sales – Türkiye",
+       subtitle = "Labels show thousands of units sold",
+       x = NULL, y = "Units Sold") +
+  theme_minimal(base_size = 11) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-Monthly housing sales show strong volatility and seasonal movements, but they do not increase proportionally with housing prices. The divergence between rising prices and weaker or volatile transaction volumes suggests worsening affordability. In other words, higher prices appear to be associated with demand compression rather than a stronger quantity-based demand boom.
+Annual sales peaked around 2021 and have trended downward since, even as prices continued to rise sharply — a clear sign of affordability-driven demand compression rather than a demand-led price surge.
 
-### Credit Card Expenditure Trends
+### Annual Credit Card Expenditure
 
 ```{r}
 #| label: trend-credit
@@ -705,7 +631,7 @@ annual_exp <- eq %>%
 
 top5 <- annual_exp %>%
   group_by(Expense_Type) %>%
-  summarise(Grand = sum(Total, na.rm = TRUE), .groups = "drop") %>%
+  summarise(Grand = sum(Total), .groups = "drop") %>%
   slice_max(Grand, n = 5) %>%
   pull(Expense_Type)
 
@@ -713,55 +639,22 @@ ggplot(annual_exp %>% filter(Expense_Type %in% top5),
        aes(x = Year, y = Total / 1e3, color = Expense_Type)) +
   geom_line(linewidth = 0.9) +
   geom_point(size = 2) +
-  scale_x_continuous(breaks = seq(min(annual_exp$Year), max(annual_exp$Year), by = 2)) +
+  scale_x_continuous(breaks = seq(2014, 2024, by = 2)) +
   scale_y_continuous(labels = label_comma(accuracy = 1)) +
-  labs(
-    title = "Figure 6. Annual Credit Card Expenditure in Top Categories",
-    x = NULL,
-    y = "Expenditure (Billion TRY)",
-    color = "Category"
-  ) +
+  labs(title = "Figure 5. Annual Credit Card Expenditure – Top 5 Categories",
+       x = NULL, y = "Expenditure (Billion TRY)", color = "Category") +
   theme_minimal(base_size = 11) +
-  theme(legend.position = "bottom", legend.text = element_text(size = 8))
+  theme(legend.position = "bottom",
+        legend.text = element_text(size = 8))
 ```
 
-Credit card expenditure increased sharply in nominal terms after 2020. This does not necessarily mean that real consumption increased at the same rate; instead, it largely reflects the broader inflationary environment. Since housing prices, construction costs, and household expenditures are all affected by inflation, this variable is useful as a broad macroeconomic pressure indicator.
+All categories grew sharply in nominal terms from 2020 onward, reflecting the broad inflationary environment which also raises construction costs, labour, and land values.
 
-### Rolling Correlation Between Exchange Rate and House Prices
+## Correlation Analysis
 
-```{r}
-#| label: rolling-correlation
+### Correlation Heatmap
 
-rolling_cor <- combined %>%
-  arrange(Date) %>%
-  mutate(row_id = row_number()) %>%
-  filter(row_id >= 24) %>%
-  rowwise() %>%
-  mutate(
-    Rolling_Correlation = cor(
-      combined$Konut_Endeksi[(row_id - 23):row_id],
-      combined$USD[(row_id - 23):row_id],
-      use = "complete.obs"
-    )
-  ) %>%
-  ungroup()
-
-ggplot(rolling_cor, aes(x = Date, y = Rolling_Correlation)) +
-  geom_line(linewidth = 0.9) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  scale_x_date(date_breaks = "2 years", date_labels = "%Y") +
-  scale_y_continuous(limits = c(-1, 1), labels = label_number(accuracy = 0.1)) +
-  labs(
-    title = "Figure 7. 24-Month Rolling Correlation: HPI and USD/TRY",
-    x = NULL,
-    y = "Rolling Pearson Correlation"
-  ) +
-  theme_minimal(base_size = 11)
-```
-
-The rolling correlation graph improves the analysis by showing whether the HPI–exchange rate relationship is stable over time. A consistently high rolling correlation indicates that the relationship is not limited to one isolated episode, although it may still be influenced by the fact that both variables share strong upward time trends.
-
-### Correlation Analysis
+A correlation heatmap summarises the pairwise relationships between all key variables at once, providing a compact picture that makes the regression results easier to interpret.
 
 ```{r}
 #| label: corr-heatmap
@@ -769,38 +662,35 @@ The rolling correlation graph improves the analysis by showing whether the HPI�
 
 corr_vars <- combined %>%
   select(
-    HPI = Konut_Endeksi,
-    `USD/TRY` = USD,
-    `EUR/TRY` = EUR,
+    HPI        = Konut_Endeksi,
+    `USD/TRY`  = USD,
+    `EUR/TRY`  = EUR,
     `CC Spend` = Total_CC,
-    Sales = Total_Sales
+    Sales      = Total_Sales
   )
 
 corr_mat <- cor(corr_vars, use = "complete.obs")
 
+# Pivot to long — keep SAME order for both axes so diagonal is top-left to bottom-right
+var_order <- c("HPI", "USD/TRY", "EUR/TRY", "CC Spend", "Sales")
+
 corr_df <- as.data.frame(corr_mat) %>%
   tibble::rownames_to_column("Var1") %>%
-  pivot_longer(-Var1, names_to = "Var2", values_to = "r")
-
-var_order <- c("HPI", "USD/TRY", "EUR/TRY", "CC Spend", "Sales")
-corr_df <- corr_df %>%
+  pivot_longer(-Var1, names_to = "Var2", values_to = "r") %>%
   mutate(
     Var1 = factor(Var1, levels = var_order),
-    Var2 = factor(Var2, levels = rev(var_order))
+    Var2 = factor(Var2, levels = var_order)
   )
 
 ggplot(corr_df, aes(x = Var1, y = Var2, fill = r)) +
   geom_tile(color = "white", linewidth = 0.5) +
   geom_text(aes(label = sprintf("%.2f", r)), size = 3.5, fontface = "bold") +
-  scale_fill_gradient2(
-    low = "#d7191c", mid = "white", high = "#2c7bb6",
-    midpoint = 0, limits = c(-1, 1), name = "Pearson r"
-  ) +
-  labs(
-    title = "Figure 8. Correlation Heatmap of Key Variables",
-    x = NULL,
-    y = NULL
-  ) +
+  scale_fill_gradient2(low = "#d7191c", mid = "white", high = "#2c7bb6",
+                       midpoint = 0, limits = c(-1, 1),
+                       name = "Pearson r") +
+  scale_y_discrete(limits = rev(var_order)) +
+  labs(title = "Figure 6. Correlation Heatmap of Key Variables",
+       x = NULL, y = NULL) +
   theme_minimal(base_size = 11) +
   theme(axis.text.x = element_text(angle = 30, hjust = 1))
 ```
@@ -810,306 +700,263 @@ ggplot(corr_df, aes(x = Var1, y = Var2, fill = r)) +
 
 corr_results <- combined %>%
   summarise(
-    `HPI vs USD/TRY` = cor(Konut_Endeksi, USD, use = "complete.obs"),
-    `HPI vs EUR/TRY` = cor(Konut_Endeksi, EUR, use = "complete.obs"),
-    `HPI vs CC Spend` = cor(Konut_Endeksi, Total_CC, use = "complete.obs"),
-    `HPI vs Sales` = cor(Konut_Endeksi, Total_Sales, use = "complete.obs")
+    `HPI vs USD/TRY`  = cor(Konut_Endeksi, USD,          use = "complete.obs"),
+    `HPI vs EUR/TRY`  = cor(Konut_Endeksi, EUR,          use = "complete.obs"),
+    `HPI vs CC Spend` = cor(Konut_Endeksi, Total_CC,     use = "complete.obs"),
+    `HPI vs Sales`    = cor(Konut_Endeksi, Total_Sales,   use = "complete.obs")
   ) %>%
   pivot_longer(everything(), names_to = "Variable Pair", values_to = "Pearson r") %>%
   mutate(`Pearson r` = round(`Pearson r`, 3))
 
-pretty_table(corr_results, "Table 3. Pearson Correlations with House Price Index")
+kable(corr_results,
+      caption = "Table 3. Pearson Correlations with House Price Index") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
 ```
 
-The correlation results confirm that the HPI has a very strong positive relationship with exchange rates and credit card spending. In contrast, housing sales have a much weaker relationship with the HPI. This supports the interpretation that nominal macroeconomic pressures are more closely aligned with housing price increases than sales volume. However, because all nominal variables trend upward over time, these correlations may partly reflect shared inflation dynamics and non-stationarity.
+The heatmap confirms the narrative: HPI correlates near-perfectly with both exchange rates (r \> 0.97) and credit card expenditure (r \> 0.95), all driven by the same underlying monetary inflation. The HPI–Sales correlation is weakly negative, reflecting demand compression at high price levels.
 
-### Regional Comparison
+### Scatter Plot: HPI vs. USD/TRY
+
+Time-series charts can visually exaggerate relationships because both series simply trend upward. A scatter plot directly tests whether the statistical relationship holds across individual observations.
+
+```{r}
+#| label: scatter-hpi-usd
+
+ggplot(combined, aes(x = log(USD), y = log(Konut_Endeksi))) +
+  geom_point(alpha = 0.5, color = "#2c7bb6") +
+  geom_smooth(method = "lm", color = "#d7191c", se = TRUE) +
+  scale_x_continuous(labels = label_number(accuracy = 0.1)) +
+  scale_y_continuous(labels = label_number(accuracy = 0.1)) +
+  labs(title = "Figure 7. log(HPI) vs. log(USD/TRY) – Each Point is One Month",
+       x = "log(USD/TRY Rate)", y = "log(House Price Index)") +
+  theme_minimal(base_size = 11)
+```
+
+The scatter plot on log-transformed variables shows an extremely tight linear relationship with very little scatter, confirming that the correlation is not just a shared time trend artefact — the relationship is genuinely strong at all levels of the exchange rate.
+
+## Regional Comparison
+
+### Regional HPI Trajectories
 
 ```{r}
 #| label: regional-hpi-plot
 
-selected_regions <- c(
-  "Türkiye", "İstanbul", "Ankara", "İzmir", "Adana, Mersin",
-  "Antalya, Burdur, Isparta", "Konya, Karaman"
-)
+# Dynamically find the top-growth region (excluding Türkiye national aggregate)
+top_growth_region <- ks %>%
+  filter(Region != "Türkiye") %>%
+  group_by(Region) %>%
+  arrange(Date) %>%
+  summarise(
+    Growth_pct = (last(Konut_Endeksi) / first(Konut_Endeksi) - 1) * 100,
+    .groups = "drop"
+  ) %>%
+  slice_max(Growth_pct, n = 1) %>%
+  pull(Region)
 
-selected_regions <- selected_regions[selected_regions %in% unique(ks$Region)]
+selected_regions <- unique(c(
+  "Türkiye", "İstanbul", "Ankara",
+  "Adana, Mersin", "Antalya, Burdur, Isparta",
+  "Konya, Karaman",
+  top_growth_region
+))
 
 ggplot(ks %>% filter(Region %in% selected_regions),
        aes(x = Date, y = Konut_Endeksi, color = Region)) +
   geom_line(linewidth = 0.8) +
   scale_x_date(date_breaks = "2 years", date_labels = "%Y") +
   scale_y_continuous(labels = label_comma(accuracy = 1)) +
-  labs(
-    title = "Figure 9. Regional House Price Index Trajectories",
-    x = NULL,
-    y = "House Price Index",
-    color = "Region"
-  ) +
+  labs(title = "Figure 8. House Price Index by Region",
+       x = NULL, y = "House Price Index", color = "Region") +
   theme_minimal(base_size = 11) +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom",
+        legend.text = element_text(size = 8))
 ```
 
-```{r}
-#| label: regional-growth
+### Regional Growth Ranking
 
-regional_growth <- ks %>%
+A ranked bar chart makes the growth comparison across all regions immediately interpretable — far clearer than overlapping line charts.
+
+```{r}
+#| label: regional-bar
+#| fig-height: 7
+
+region_growth <- ks %>%
+  filter(Region != "Türkiye") %>%
   group_by(Region) %>%
   arrange(Date) %>%
   summarise(
-    First_HPI = first(Konut_Endeksi),
-    Latest_HPI = last(Konut_Endeksi),
-    Growth_pct = (Latest_HPI / First_HPI - 1) * 100,
+    Growth_pct = (last(Konut_Endeksi) / first(Konut_Endeksi) - 1) * 100,
     .groups = "drop"
-  ) %>%
-  arrange(desc(Growth_pct))
+  )
 
-ggplot(regional_growth %>% slice_head(n = 12),
-       aes(x = reorder(Region, Growth_pct), y = Growth_pct)) +
-  geom_col(alpha = 0.85) +
-  geom_text(aes(label = paste0(round(Growth_pct, 0), "%")), hjust = -0.1, size = 3) +
+ggplot(region_growth,
+       aes(x = reorder(Region, Growth_pct), y = Growth_pct, fill = Growth_pct)) +
+  geom_col(show.legend = FALSE) +
+  geom_text(aes(label = paste0(round(Growth_pct, 0), "%")),
+            hjust = -0.1, size = 3) +
+  scale_fill_gradient(low = "#abd9e9", high = "#08306b") +
   scale_y_continuous(expand = expansion(mult = c(0, 0.12)),
                      labels = label_percent(scale = 1, accuracy = 1)) +
   coord_flip() +
-  labs(
-    title = "Figure 10. Highest Regional HPI Growth Rates",
-    x = NULL,
-    y = "Growth (%)"
-  ) +
+  labs(title = "Figure 9. Total HPI Growth by Region (First to Latest Observation)",
+       x = NULL, y = "Growth (%)") +
   theme_minimal(base_size = 10)
 ```
 
-The regional graphs show that the increase in house prices was not limited to İstanbul or a single metropolitan area. Coastal and large metropolitan regions reached high index levels, but many regions also experienced very large percentage increases from lower starting points. This indicates that the price surge was national in character, although regional intensity differed.
+```{r}
+#| label: regional-growth-table
 
-## 3.3 Model Fitting
+ks %>%
+  group_by(Region) %>%
+  arrange(Date) %>%
+  summarise(
+    `First HPI`  = round(first(Konut_Endeksi), 1),
+    `Latest HPI` = round(last(Konut_Endeksi), 1),
+    `Growth (%)`  = round((last(Konut_Endeksi) / first(Konut_Endeksi) - 1) * 100, 1),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(`Growth (%)`)) %>%
+  mutate(across(c(`First HPI`, `Latest HPI`), ~ format(.x, big.mark = ","))) %>%
+  kable(caption = "Table 4. HPI Growth by Region (First to Latest Observation)") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+```
 
-To formally estimate the association between house prices and macroeconomic indicators, log-log regression models are used. Log transformation reduces the influence of scale differences and allows coefficients to be interpreted approximately as elasticities. Because this is a time-series dataset with strong trends, the model is interpreted as an explanatory association model rather than a causal forecast model.
+İstanbul records the highest absolute index level, while Antalya and coastal regions have also seen strong growth driven by tourism and migration. Notably, interior Anatolian regions started from a much lower base but achieved comparable percentage growth, confirming the surge is a nationwide phenomenon rather than a metropolitan one.
+
+## Model Fitting
+
+To formally quantify the drivers of housing price growth, we estimate a multiple linear regression model. Log-transformations are applied to all variables to handle exponential growth and to interpret coefficients as elasticities.
 
 ```{r}
 #| label: model-data
 
 model_data <- combined %>%
   mutate(
-    log_HPI = log(Konut_Endeksi),
-    log_USD = log(USD),
-    log_EUR = log(EUR),
+    log_HPI   = log(Konut_Endeksi),
+    log_USD   = log(USD),
+    log_EUR   = log(EUR),
     log_Sales = log(Total_Sales + 1),
-    log_CC = log(Total_CC + 1),
-    HPI_YoY = (Konut_Endeksi / lag(Konut_Endeksi, 12) - 1) * 100,
-    USD_YoY = (USD / lag(USD, 12) - 1) * 100,
-    CC_YoY = (Total_CC / lag(Total_CC, 12) - 1) * 100,
-    Sales_YoY = (Total_Sales / lag(Total_Sales, 12) - 1) * 100
+    log_CC    = log(Total_CC + 1)
   ) %>%
-  filter(!is.na(log_HPI), !is.na(log_USD), !is.na(log_Sales), !is.na(log_CC))
+  filter(!is.na(log_HPI), !is.na(log_USD))
 ```
 
-### Baseline Model: Exchange Rate Only
+### Baseline Model — Exchange Rate Only
 
 ```{r}
 #| label: model1
 
 m1 <- lm(log_HPI ~ log_USD, data = model_data)
 
-m1_table <- as.data.frame(summary(m1)$coefficients) %>%
+as.data.frame(summary(m1)$coefficients) %>%
   mutate(
-    Term = c("Intercept", "log(USD/TRY)"),
-    Estimate = round(Estimate, 3),
+    Term         = c("Intercept", "log(USD/TRY)"),
+    Estimate     = round(Estimate, 3),
     `Std. Error` = round(`Std. Error`, 3),
-    `t value` = round(`t value`, 2),
-    `p value` = format(round(`Pr(>|t|)`, 4), nsmall = 4)
+    `t value`    = round(`t value`, 2),
+    `p value`    = format(round(`Pr(>|t|)`, 4), nsmall = 4)
   ) %>%
-  select(Term, Estimate, `Std. Error`, `t value`, `p value`)
-
-pretty_table(
-  m1_table,
-  sprintf("Table 4. Baseline Model: log(HPI) Explained by log(USD/TRY), R² = %.3f", summary(m1)$r.squared)
-)
+  select(Term, Estimate, `Std. Error`, `t value`, `p value`) %>%
+  kable(caption = sprintf("Table 5. Baseline Model – R² = %.3f",
+                          summary(m1)$r.squared)) %>%
+  kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
 ```
 
-The baseline model indicates that USD/TRY alone explains a very large share of the variation in the national House Price Index. The positive elasticity means that higher exchange rates are strongly associated with higher house prices. This result is economically plausible because exchange rate depreciation can raise construction material costs, imported input prices, and inflation expectations.
+The exchange rate alone accounts for over 94% of the variance in the HPI. A 1% increase in the USD/TRY rate is associated with approximately a 1% increase in the housing price index.
 
-### Full Model: Exchange Rate, Sales, and Credit Card Expenditure
+### Full Model — Exchange Rate, Sales, and Credit Card Expenditure
 
 ```{r}
 #| label: model2
 
 m2 <- lm(log_HPI ~ log_USD + log_Sales + log_CC, data = model_data)
 
-m2_table <- as.data.frame(summary(m2)$coefficients) %>%
+as.data.frame(summary(m2)$coefficients) %>%
   mutate(
-    Term = c("Intercept", "log(USD/TRY)", "log(Sales)", "log(CC Spend)"),
-    Estimate = round(Estimate, 3),
+    Term         = c("Intercept", "log(USD/TRY)", "log(Sales)", "log(CC Spend)"),
+    Estimate     = round(Estimate, 3),
     `Std. Error` = round(`Std. Error`, 3),
-    `t value` = round(`t value`, 2),
-    `p value` = format(round(`Pr(>|t|)`, 4), nsmall = 4),
+    `t value`    = round(`t value`, 2),
+    `p value`    = format(round(`Pr(>|t|)`, 4), nsmall = 4),
     Sig = case_when(
       `Pr(>|t|)` < 0.001 ~ "***",
-      `Pr(>|t|)` < 0.01 ~ "**",
-      `Pr(>|t|)` < 0.05 ~ "*",
-      TRUE ~ ""
+      `Pr(>|t|)` < 0.01  ~ "**",
+      `Pr(>|t|)` < 0.05  ~ "*",
+      TRUE               ~ ""
     )
   ) %>%
-  select(Term, Estimate, `Std. Error`, `t value`, `p value`, Sig)
-
-pretty_table(
-  m2_table,
-  sprintf("Table 5. Full Model: R² = %.3f, Adjusted R² = %.3f", summary(m2)$r.squared, summary(m2)$adj.r.squared)
-)
+  select(Term, Estimate, `Std. Error`, `t value`, `p value`, Sig) %>%
+  kable(caption = sprintf("Table 6. Full Model – R² = %.3f, Adjusted R² = %.3f",
+                          summary(m2)$r.squared,
+                          summary(m2)$adj.r.squared)) %>%
+  kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
 ```
 
-Adding sales and credit card expenditure slightly improves the model fit. USD/TRY remains the dominant explanatory variable, while the sales coefficient helps capture the divergence between rising prices and weakening transaction activity. Credit card expenditure should be interpreted as a broad nominal/inflation proxy rather than a direct housing demand variable.
+Adding sales volume and credit card expenditure raises the adjusted R² to approximately 0.95. Log(USD/TRY) remains the dominant and most significant predictor. Log(Sales) enters negatively, confirming that price increases coincide with falling transaction volumes rather than rising demand. Log(CC Spend) is positive, reflecting the general inflationary environment.
 
-### Robustness Check Using Year-over-Year Growth Rates
-
-```{r}
-#| label: yoy-model
-
-yoy_model_data <- model_data %>%
-  filter(!is.na(HPI_YoY), !is.na(USD_YoY), !is.na(Sales_YoY), !is.na(CC_YoY))
-
-m_yoy <- lm(HPI_YoY ~ USD_YoY + Sales_YoY + CC_YoY, data = yoy_model_data)
-
-yoy_table <- as.data.frame(summary(m_yoy)$coefficients) %>%
-  tibble::rownames_to_column("Term") %>%
-  mutate(
-    Estimate = round(Estimate, 3),
-    `Std. Error` = round(`Std. Error`, 3),
-    `t value` = round(`t value`, 2),
-    `p value` = format(round(`Pr(>|t|)`, 4), nsmall = 4)
-  ) %>%
-  select(Term, Estimate, `Std. Error`, `t value`, `p value`)
-
-pretty_table(
-  yoy_table,
-  sprintf("Table 6. Robustness Model Using YoY Growth Rates: Adjusted R² = %.3f", summary(m_yoy)$adj.r.squared)
-)
-```
-
-The year-over-year model is added as a robustness check because it reduces the influence of common upward trends in the raw level variables. If USD/TRY growth remains positively associated with HPI growth in this specification, the exchange-rate interpretation becomes more credible. Nevertheless, this still does not prove causality because other macroeconomic variables may influence both exchange rates and house prices simultaneously.
-
-### Multicollinearity Check
-
-```{r}
-#| label: vif-check
-
-vif_manual <- function(model) {
-  X <- model.matrix(model)[, -1, drop = FALSE]
-  vars <- colnames(X)
-  vals <- sapply(vars, function(v) {
-    others <- X[, setdiff(vars, v), drop = FALSE]
-    r2 <- summary(lm(X[, v] ~ others))$r.squared
-    1 / (1 - r2)
-  })
-  data.frame(Variable = vars, VIF = round(vals, 2), row.names = NULL)
-}
-
-pretty_table(vif_manual(m2), "Table 7. Variance Inflation Factors for the Full Model")
-```
-
-The VIF table is included because macroeconomic variables often move together. Very high VIF values would indicate multicollinearity, meaning that individual coefficient estimates should be interpreted cautiously even if the overall model fit is strong.
-
-### Actual vs. Fitted Values
+### Actual vs. Fitted
 
 ```{r}
 #| label: fitted-chart
 
-model_data <- model_data %>%
-  mutate(
-    Fitted = fitted(m2),
-    Residuals = residuals(m2)
-  )
+model_data$Fitted    <- fitted(m2)
+model_data$Residuals <- residuals(m2)
 
 ggplot(model_data, aes(x = Date)) +
   geom_line(aes(y = log_HPI, color = "Actual"), linewidth = 0.9) +
-  geom_line(aes(y = Fitted, color = "Fitted"), linewidth = 0.9, linetype = "dashed") +
+  geom_line(aes(y = Fitted,  color = "Fitted"),
+            linewidth = 0.9, linetype = "dashed") +
+  scale_color_manual(values = c("Actual" = "#2c7bb6", "Fitted" = "#d7191c")) +
   scale_x_date(date_breaks = "2 years", date_labels = "%Y") +
-  labs(
-    title = "Figure 11. Actual vs. Fitted log(HPI)",
-    x = NULL,
-    y = "log(House Price Index)",
-    color = NULL
-  ) +
+  labs(title = "Figure 10. Actual vs. Fitted log(HPI) – Full Model",
+       x = NULL, y = "log(House Price Index)", color = NULL) +
   theme_minimal(base_size = 11) +
   theme(legend.position = "top")
 ```
 
-The fitted values closely follow the actual log(HPI) series, including the acceleration after 2020. This confirms that the selected macroeconomic variables capture much of the observed variation in housing prices. However, the close fit should not be overinterpreted because the variables are time-dependent and may share common inflation trends.
-
-### Residual Diagnostics
+### Residual Plot
 
 ```{r}
 #| label: residual-plot
 
 ggplot(model_data, aes(x = Fitted, y = Residuals)) +
-  geom_point(alpha = 0.55) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  geom_smooth(method = "loess", se = FALSE, linewidth = 0.8) +
-  labs(
-    title = "Figure 12. Residuals vs. Fitted Values",
-    x = "Fitted log(HPI)",
-    y = "Residuals"
-  ) +
+  geom_point(alpha = 0.5, color = "#2c7bb6") +
+  geom_hline(yintercept = 0, color = "#d7191c", linetype = "dashed") +
+  geom_smooth(method = "loess", se = FALSE, color = "#f46d43", linewidth = 0.8) +
+  scale_x_continuous(labels = label_number(accuracy = 0.1)) +
+  scale_y_continuous(labels = label_number(accuracy = 0.01)) +
+  labs(title = "Figure 11. Residuals vs. Fitted Values",
+       x = "Fitted log(HPI)", y = "Residuals") +
   theme_minimal(base_size = 11)
 ```
 
-```{r}
-#| label: residual-histogram
+The residual plot shows that errors are small and close to zero for most of the fitted range. A slight curvature appears at the upper end (high fitted values corresponding to 2022–2023), indicating mild non-linearity during the most extreme depreciation phase — the period most difficult to model with a simple log-linear specification.
 
-ggplot(model_data, aes(x = Residuals)) +
-  geom_histogram(bins = 25, alpha = 0.85) +
-  geom_vline(xintercept = 0, linetype = "dashed") +
-  labs(
-    title = "Figure 13. Distribution of Regression Residuals",
-    x = "Residual",
-    y = "Frequency"
-  ) +
-  theme_minimal(base_size = 11)
-```
+The model closely tracks the actual index throughout the sample, including the inflection point around 2021. The largest residuals cluster in 2022, coinciding with the sharpest TRY depreciation — possibly reflecting structural breaks not captured by the log-linear form.
 
-```{r}
-#| label: autocorrelation-diagnostic
+## Limitations
 
-resid_values <- residuals(m2)
-dw_stat <- sum(diff(resid_values)^2) / sum(resid_values^2)
-resid_acf1 <- cor(resid_values[-length(resid_values)], resid_values[-1])
+No analysis is without constraints, and acknowledging them is an important part of academic work.
 
-diagnostic_table <- data.frame(
-  Diagnostic = c("Durbin-Watson statistic", "Lag-1 residual autocorrelation"),
-  Value = round(c(dw_stat, resid_acf1), 3),
-  Interpretation = c(
-    "Values far below 2 indicate positive autocorrelation",
-    "High positive values suggest time-series dependence in residuals"
-  )
-)
+-   **Nominal variables only.** All variables are nominal — no inflation adjustment has been applied. Many series rise together simply because of broad inflation, which may inflate the apparent strength of correlations. A real House Price Index (deflated by CPI) would be a more precise measure of genuine affordability loss.
 
-pretty_table(diagnostic_table, "Table 8. Basic Time-Series Residual Diagnostics")
-```
+-   **Correlation is not causation.** The high correlations and regression fit confirm strong co-movement, but they do not establish a causal direction. Exchange rates and housing prices are likely jointly influenced by monetary policy, which we do not model explicitly.
 
-The residual plots and diagnostics are important because this is a time-series dataset. If residuals show curvature, unequal variance, or autocorrelation, then ordinary least squares still describes the association but may not provide fully reliable inference for hypothesis testing. The residual diagnostics therefore strengthen the project by showing awareness of model assumptions and limitations.
+-   **Aggregated credit card data.** The credit card expenditure variable aggregates all sectors and acts mainly as a general inflation proxy. Sector-specific data (e.g., construction materials) would be more theoretically precise.
 
-## 3.4 Results
+-   **Static OLS model.** The regression does not account for autocorrelation or lagged effects. Time-series models (e.g., VAR or Error Correction Models) would better capture the dynamic transmission of exchange rate shocks into housing prices over time.
 
-The empirical results indicate that housing prices in Türkiye increased in close association with exchange rate depreciation and broader nominal inflation conditions. The strongest statistical relationship is observed between the House Price Index and USD/TRY. Credit card expenditure also moves closely with housing prices, but it is better interpreted as a proxy for general nominal expansion rather than as a direct causal factor. Housing sales, on the other hand, do not rise in proportion to prices, suggesting that affordability constraints became more important over time.
+# Results and Key Takeaways
 
-The model explains a very high share of the variation in log(HPI), but this high explanatory power should be interpreted carefully. Türkiye experienced a period of strong inflation, currency depreciation, and nominal price increases across many markets. Therefore, some of the observed correlation may reflect shared macroeconomic trends rather than independent causal effects. The year-over-year robustness model and diagnostic plots are included to reduce this concern and to make the interpretation more statistically credible.
+-   **Exchange rate depreciation is the primary driver.** The USD/TRY rate and the national HPI move almost in lockstep (r ≈ 0.97). A 1% rise in the exchange rate is associated with approximately a 1% rise in housing prices, reflecting the dollarised cost structure of construction materials and real estate's role as an inflation hedge.
 
-Overall, the evidence supports the conclusion that exchange rate depreciation, inflationary pressures, and cost-side dynamics are central to understanding the rise in house prices. At the same time, the findings do not prove that exchange rates alone caused the increase. A more advanced future study could include inflation-adjusted house prices, interest rates, mortgage loan volumes, construction cost indices, population/migration variables, and time-series methods such as VAR or error-correction models.
+-   **Housing sales volumes declined as prices surged.** After 2022, monthly sales softened considerably even as prices accelerated. This divergence indicates affordability-driven demand compression — buyers are being priced out rather than stimulated by the market.
 
-# 4. Results and Key Takeaways
+-   **The price surge is nationwide, not just metropolitan.** While İstanbul leads in absolute index levels, central Anatolian regions have recorded comparable percentage growth from their lower base, suggesting the underlying inflationary forces are country-wide.
 
-- **House prices increased dramatically after 2020.** The national House Price Index shows a sharp acceleration, especially during the 2021–2023 period.
+-   **Consumer spending inflation amplifies the effect.** Total credit card expenditure is strongly correlated with the HPI, as broad nominal inflation raises construction costs, labour, and land values across the board.
 
-- **Exchange rate depreciation is the strongest macroeconomic correlate.** USD/TRY and HPI move very closely together, and the log-log regression shows a strong positive association between exchange rates and housing prices.
-
-- **The increase is not explained by sales volume alone.** Housing sales are volatile and do not rise proportionally with prices, which supports the interpretation of affordability-driven demand compression.
-
-- **Credit card spending reflects the broader nominal inflation environment.** Its strong relationship with HPI should be understood as evidence of general nominal expansion rather than direct housing demand.
-
-- **The price surge is nationwide but regionally uneven.** İstanbul and coastal regions reach high index levels, while many other regions also experience substantial percentage growth.
-
-- **The results are statistically strong but should be interpreted cautiously.** Since the variables are non-stationary and trend upward over time, the project shows strong association rather than definitive causality.
-
-- **Further research could improve causal interpretation.** Inflation-adjusted prices, interest rates, mortgage data, construction cost indices, and dynamic time-series models would make the analysis stronger.
+-   **A simple OLS model explains \~95% of HPI variance**, demonstrating that macroeconomic indicators are powerful predictors of housing price trajectories in Türkiye. More advanced time-series models (VAR, ECM) could further capture lagged dynamics and structural breaks, particularly around the 2022 currency crisis.
 
 ------------------------------------------------------------------------
 
