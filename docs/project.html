@@ -354,12 +354,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">3. Analysis</a>
   <ul class="collapse">
-  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">3.1 Exploratory Data Analysis</a></li>
-  <li><a href="#trend-analysis" id="toc-trend-analysis" class="nav-link" data-scroll-target="#trend-analysis">3.2 Trend Analysis</a></li>
-  <li><a href="#model-fitting" id="toc-model-fitting" class="nav-link" data-scroll-target="#model-fitting">3.3 Model Fitting</a></li>
+  <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">3.1 Exploratory Data Analysis</a>
+  <ul class="collapse">
+  <li><a href="#general-dataset-overview" id="toc-general-dataset-overview" class="nav-link" data-scroll-target="#general-dataset-overview">General Dataset Overview</a></li>
+  <li><a href="#main-variables-used-in-the-analysis" id="toc-main-variables-used-in-the-analysis" class="nav-link" data-scroll-target="#main-variables-used-in-the-analysis">Main Variables Used in the Analysis</a></li>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics">Descriptive Statistics</a></li>
+  <li><a href="#distribution-of-house-price-index-values" id="toc-distribution-of-house-price-index-values" class="nav-link" data-scroll-target="#distribution-of-house-price-index-values">Distribution of House Price Index Values</a></li>
+  </ul></li>
+  <li><a href="#trend-analysis" id="toc-trend-analysis" class="nav-link" data-scroll-target="#trend-analysis">3.2 Trend Analysis</a>
+  <ul class="collapse">
+  <li><a href="#national-house-price-index-trend" id="toc-national-house-price-index-trend" class="nav-link" data-scroll-target="#national-house-price-index-trend">National House Price Index Trend</a></li>
+  <li><a href="#exchange-rate-trend" id="toc-exchange-rate-trend" class="nav-link" data-scroll-target="#exchange-rate-trend">Exchange Rate Trend</a></li>
+  <li><a href="#housing-sales-trend" id="toc-housing-sales-trend" class="nav-link" data-scroll-target="#housing-sales-trend">Housing Sales Trend</a></li>
+  <li><a href="#regional-house-price-comparison" id="toc-regional-house-price-comparison" class="nav-link" data-scroll-target="#regional-house-price-comparison">Regional House Price Comparison</a></li>
+  <li><a href="#regional-distribution-of-house-price-index-values" id="toc-regional-distribution-of-house-price-index-values" class="nav-link" data-scroll-target="#regional-distribution-of-house-price-index-values">Regional Distribution of House Price Index Values</a></li>
+  </ul></li>
+  <li><a href="#model-fitting" id="toc-model-fitting" class="nav-link" data-scroll-target="#model-fitting">3.3 Model Fitting</a>
+  <ul class="collapse">
+  <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis">Correlation Analysis</a></li>
+  <li><a href="#usdtry-and-house-price-index-relationship" id="toc-usdtry-and-house-price-index-relationship" class="nav-link" data-scroll-target="#usdtry-and-house-price-index-relationship">USD/TRY and House Price Index Relationship</a></li>
+  <li><a href="#multiple-linear-regression-model" id="toc-multiple-linear-regression-model" class="nav-link" data-scroll-target="#multiple-linear-regression-model">Multiple Linear Regression Model</a></li>
+  <li><a href="#first-difference-model" id="toc-first-difference-model" class="nav-link" data-scroll-target="#first-difference-model">First-Difference Model</a></li>
+  <li><a href="#lagged-exchange-rate-model" id="toc-lagged-exchange-rate-model" class="nav-link" data-scroll-target="#lagged-exchange-rate-model">Lagged Exchange Rate Model</a></li>
+  </ul></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">3.4 Results</a></li>
   </ul></li>
-  <li><a href="#results-and-key-takeaways" id="toc-results-and-key-takeaways" class="nav-link" data-scroll-target="#results-and-key-takeaways">4. Results and Key Takeaways</a></li>
+  <li><a href="#results-and-key-takeaways" id="toc-results-and-key-takeaways" class="nav-link" data-scroll-target="#results-and-key-takeaways">4. Results and Key Takeaways</a>
+  <ul class="collapse">
+  <li><a href="#main-findings" id="toc-main-findings" class="nav-link" data-scroll-target="#main-findings">Main Findings</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
   </ul>
 </nav>
 </nav>
@@ -811,29 +836,766 @@ This is the main table for the project and contains Year, Month, Region, House P
 </section>
 <section id="analysis" class="level1">
 <h1>3. Analysis</h1>
-<p>xxxxxx</p>
+<p>This section presents the analytical part of the project. The purpose is to examine how house prices in Türkiye changed over time and how these changes are related to selected macroeconomic and demand-side indicators. The analysis focuses on housing price index movements, housing sales, exchange rates, regional differences, and consumer expenditure patterns.</p>
+<p>The main research question is:</p>
+<p><strong>Why have house prices in Türkiye increased strongly in the last ten years?</strong></p>
+<p>To answer this question, the analysis uses three datasets:</p>
+<ul>
+<li><code>Konut_Index_Sales</code>: regional house price index and total housing sales data.</li>
+<li><code>Conversion_Rates</code>: monthly USD/TRY and EUR/TRY exchange rates.</li>
+<li><code>Expense_Quantity</code>: credit card expenditure quantity data by category.</li>
+</ul>
+<p>The analysis combines descriptive statistics, time-series visualization, correlation analysis, and regression modeling. The aim is not only to produce graphs, but also to interpret the patterns in relation to the housing market and the broader Turkish economy.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create Date variables if they are not already available</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="st">"Date"</span> <span class="sc">%in%</span> <span class="fu">names</span>(Conversion_Rates)) {</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  Conversion_Rates <span class="ot">&lt;-</span> Conversion_Rates <span class="sc">%&gt;%</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">sprintf</span>(<span class="st">"%d-%02d-01"</span>, Year, Month)))</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="st">"Date"</span> <span class="sc">%in%</span> <span class="fu">names</span>(Expense_Quantity)) {</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  Expense_Quantity <span class="ot">&lt;-</span> Expense_Quantity <span class="sc">%&gt;%</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">sprintf</span>(<span class="st">"%d-%02d-01"</span>, Year, Month)))</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="st">"Date"</span> <span class="sc">%in%</span> <span class="fu">names</span>(Konut_Index_Sales)) {</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  Konut_Index_Sales <span class="ot">&lt;-</span> Konut_Index_Sales <span class="sc">%&gt;%</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">sprintf</span>(<span class="st">"%d-%02d-01"</span>, Year, Month)))</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co"># National level housing data</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>turkey_name <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="st">"Türkiye"</span> <span class="sc">%in%</span> <span class="fu">unique</span>(Konut_Index_Sales<span class="sc">$</span>Region)) {</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Türkiye"</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>(Konut_Index_Sales<span class="sc">$</span>Region)[<span class="dv">1</span>]</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>turkey_housing <span class="ot">&lt;-</span> Konut_Index_Sales <span class="sc">%&gt;%</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Region <span class="sc">==</span> turkey_name) <span class="sc">%&gt;%</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Date)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>macro_housing <span class="ot">&lt;-</span> turkey_housing <span class="sc">%&gt;%</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Date, Konut_Endeksi, Total_Sales) <span class="sc">%&gt;%</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    Conversion_Rates <span class="sc">%&gt;%</span> <span class="fu">select</span>(Date, USD, EUR),</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"Date"</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
 <section id="exploratory-data-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="exploratory-data-analysis">3.1 Exploratory Data Analysis</h2>
-<p>xxxxxx</p>
+<p>Exploratory Data Analysis is used to understand the structure of the data before conducting deeper analysis. Since this project uses monthly economic data, the EDA focuses on the time period, number of observations, variable meanings, and general distribution of the main indicators.</p>
+<p>The housing price index is the central variable of the project. Housing sales represent market activity, while exchange rates represent macroeconomic pressure. Credit card expenditure data is used as a supporting indicator for the general economic environment.</p>
+<section id="general-dataset-overview" class="level3">
+<h3 class="anchored" data-anchor-id="general-dataset-overview">General Dataset Overview</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>overview_table <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Dataset =</span> <span class="fu">c</span>(<span class="st">"Konut_Index_Sales"</span>, <span class="st">"Conversion_Rates"</span>, <span class="st">"Expense_Quantity"</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Observations =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(Konut_Index_Sales), <span class="fu">nrow</span>(Conversion_Rates), <span class="fu">nrow</span>(Expense_Quantity)),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Columns =</span> <span class="fu">c</span>(<span class="fu">ncol</span>(Konut_Index_Sales), <span class="fu">ncol</span>(Conversion_Rates), <span class="fu">ncol</span>(Expense_Quantity)),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">First_Date =</span> <span class="fu">c</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.character</span>(<span class="fu">min</span>(Konut_Index_Sales<span class="sc">$</span>Date, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.character</span>(<span class="fu">min</span>(Conversion_Rates<span class="sc">$</span>Date, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.character</span>(<span class="fu">min</span>(Expense_Quantity<span class="sc">$</span>Date, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Last_Date =</span> <span class="fu">c</span>(</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.character</span>(<span class="fu">max</span>(Konut_Index_Sales<span class="sc">$</span>Date, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.character</span>(<span class="fu">max</span>(Conversion_Rates<span class="sc">$</span>Date, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.character</span>(<span class="fu">max</span>(Expense_Quantity<span class="sc">$</span>Date, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(overview_table, <span class="at">caption =</span> <span class="st">"General Overview of the Analytical Datasets"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>General Overview of the Analytical Datasets</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dataset</th>
+<th style="text-align: right;">Observations</th>
+<th style="text-align: right;">Columns</th>
+<th style="text-align: left;">First_Date</th>
+<th style="text-align: left;">Last_Date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Konut_Index_Sales</td>
+<td style="text-align: right;">2680</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">2015-01-01</td>
+<td style="text-align: left;">2026-02-01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Conversion_Rates</td>
+<td style="text-align: right;">148</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">2014-01-01</td>
+<td style="text-align: left;">2026-04-01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Expense_Quantity</td>
+<td style="text-align: right;">3915</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">2015-01-01</td>
+<td style="text-align: left;">2026-03-01</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The datasets provide a monthly structure, which is appropriate for observing long-term economic trends. The housing dataset provides the dependent variable of the study, while exchange rates and expenditure indicators help explain the macroeconomic environment behind housing price movements.</p>
+</section>
+<section id="main-variables-used-in-the-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="main-variables-used-in-the-analysis">Main Variables Used in the Analysis</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>variable_table <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Variable =</span> <span class="fu">c</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Date"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Region"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Konut_Endeksi"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Total_Sales"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"USD"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EUR"</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Expense_Type"</span>,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Quantity"</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Meaning =</span> <span class="fu">c</span>(</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Monthly observation date"</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"National or regional housing market unit"</span>,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"House Price Index value"</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Total number of house sales"</span>,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"USD/TRY exchange rate"</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EUR/TRY exchange rate"</span>,</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Credit card expenditure category"</span>,</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Credit card expenditure quantity/value"</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">Role =</span> <span class="fu">c</span>(</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Time dimension"</span>,</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Regional comparison"</span>,</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Main housing price indicator"</span>,</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Housing demand/activity indicator"</span>,</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Macroeconomic indicator"</span>,</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Macroeconomic indicator"</span>,</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Consumption category"</span>,</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Consumer expenditure indicator"</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(variable_table, <span class="at">caption =</span> <span class="st">"Main Variables Used in the Analysis"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Main Variables Used in the Analysis</caption>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 46%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Meaning</th>
+<th style="text-align: left;">Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Date</td>
+<td style="text-align: left;">Monthly observation date</td>
+<td style="text-align: left;">Time dimension</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region</td>
+<td style="text-align: left;">National or regional housing market unit</td>
+<td style="text-align: left;">Regional comparison</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Konut_Endeksi</td>
+<td style="text-align: left;">House Price Index value</td>
+<td style="text-align: left;">Main housing price indicator</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Total_Sales</td>
+<td style="text-align: left;">Total number of house sales</td>
+<td style="text-align: left;">Housing demand/activity indicator</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">USD</td>
+<td style="text-align: left;">USD/TRY exchange rate</td>
+<td style="text-align: left;">Macroeconomic indicator</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EUR</td>
+<td style="text-align: left;">EUR/TRY exchange rate</td>
+<td style="text-align: left;">Macroeconomic indicator</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Expense_Type</td>
+<td style="text-align: left;">Credit card expenditure category</td>
+<td style="text-align: left;">Consumption category</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Quantity</td>
+<td style="text-align: left;">Credit card expenditure quantity/value</td>
+<td style="text-align: left;">Consumer expenditure indicator</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The most important variable is <code>Konut_Endeksi</code>, because it directly measures housing price changes. <code>Total_Sales</code> is used to observe whether price increases are accompanied by higher sales volume. <code>USD</code> and <code>EUR</code> are included because exchange rate movements are important for construction costs and inflation expectations in Türkiye.</p>
+</section>
+<section id="descriptive-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="descriptive-statistics">Descriptive Statistics</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>desc_table <span class="ot">&lt;-</span> macro_housing <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Observations =</span> <span class="fu">n</span>(),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">HPI_Min =</span> <span class="fu">round</span>(<span class="fu">min</span>(Konut_Endeksi, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">HPI_Max =</span> <span class="fu">round</span>(<span class="fu">max</span>(Konut_Endeksi, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">HPI_Mean =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Konut_Endeksi, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sales_Min =</span> <span class="fu">round</span>(<span class="fu">min</span>(Total_Sales, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">0</span>),</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sales_Max =</span> <span class="fu">round</span>(<span class="fu">max</span>(Total_Sales, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">0</span>),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sales_Mean =</span> <span class="fu">round</span>(<span class="fu">mean</span>(Total_Sales, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">0</span>),</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">USD_Min =</span> <span class="fu">round</span>(<span class="fu">min</span>(USD, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">USD_Max =</span> <span class="fu">round</span>(<span class="fu">max</span>(USD, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">EUR_Min =</span> <span class="fu">round</span>(<span class="fu">min</span>(EUR, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>),</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">EUR_Max =</span> <span class="fu">round</span>(<span class="fu">max</span>(EUR, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">2</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(desc_table, <span class="at">caption =</span> <span class="st">"Descriptive Statistics for National Housing and Macroeconomic Variables"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Descriptive Statistics for National Housing and Macroeconomic Variables</caption>
+<colgroup>
+<col style="width: 12%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Observations</th>
+<th style="text-align: right;">HPI_Min</th>
+<th style="text-align: right;">HPI_Max</th>
+<th style="text-align: right;">HPI_Mean</th>
+<th style="text-align: right;">Sales_Min</th>
+<th style="text-align: right;">Sales_Max</th>
+<th style="text-align: right;">Sales_Mean</th>
+<th style="text-align: right;">USD_Min</th>
+<th style="text-align: right;">USD_Max</th>
+<th style="text-align: right;">EUR_Min</th>
+<th style="text-align: right;">EUR_Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">134</td>
+<td style="text-align: right;">7.65</td>
+<td style="text-align: right;">215.51</td>
+<td style="text-align: right;">53.52</td>
+<td style="text-align: right;">45218</td>
+<td style="text-align: right;">265223</td>
+<td style="text-align: right;">126019</td>
+<td style="text-align: right;">2.33</td>
+<td style="text-align: right;">43.66</td>
+<td style="text-align: right;">2.72</td>
+<td style="text-align: right;">51.68</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The descriptive statistics show large differences between minimum and maximum values, especially for the house price index and exchange rates. This indicates that the study period includes major economic changes. The house price index increased substantially over time, while exchange rates also rose significantly.</p>
+<p>Sales statistics should be interpreted differently. Housing sales have high variation, but they do not necessarily follow a continuous upward trend. This distinction is important because it suggests that house price increases may not be explained only by sales volume.</p>
+</section>
+<section id="distribution-of-house-price-index-values" class="level3">
+<h3 class="anchored" data-anchor-id="distribution-of-house-price-index-values">Distribution of House Price Index Values</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Konut_Index_Sales, <span class="fu">aes</span>(<span class="at">x =</span> Konut_Endeksi)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of House Price Index Values"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"House Price Index"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Frequency"</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="project_files/figure-html/hpi-distribution-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Distribution of House Price Index Values</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The distribution of house price index values is right-skewed. This is expected because the index increased sharply in recent years, creating higher values at the right side of the distribution. The distribution therefore reflects the structural upward movement in housing prices rather than a stable or normally distributed market.</p>
+</section>
 </section>
 <section id="trend-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="trend-analysis">3.2 Trend Analysis</h2>
-<p>xxxxxx</p>
+<p>Trend analysis is the most important part of this project because the research question focuses on how house prices changed over time. This section examines national house price movements, exchange rates, housing sales, and regional differences.</p>
+<section id="national-house-price-index-trend" class="level3">
+<h3 class="anchored" data-anchor-id="national-house-price-index-trend">National House Price Index Trend</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(turkey_housing, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Konut_Endeksi)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"House Price Index Trend in Türkiye"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"House Price Index"</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="project_files/figure-html/national-hpi-trend-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>House Price Index Trend in Türkiye</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The national house price index shows a strong upward trend over time. The increase is not linear. In the earlier part of the period, prices increased more gradually. In the later part of the period, the slope becomes much steeper, showing that house price growth accelerated.</p>
+<p>This finding directly supports the main motivation of the project. The issue is not only that house prices increased, but that the speed of increase became much stronger. This type of acceleration is usually connected with broader macroeconomic pressure, including inflation, currency depreciation, construction cost increases, and investment demand.</p>
+</section>
+<section id="exchange-rate-trend" class="level3">
+<h3 class="anchored" data-anchor-id="exchange-rate-trend">Exchange Rate Trend</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>exchange_long <span class="ot">&lt;-</span> Conversion_Rates <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Date, USD, EUR) <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(USD, EUR),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Currency"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Rate"</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(exchange_long, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Rate, <span class="at">color =</span> Currency)) <span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Exchange Rates Over Time"</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"TRY Value"</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Currency"</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="project_files/figure-html/exchange-rate-trend-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Monthly USD/TRY and EUR/TRY Exchange Rates</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>USD/TRY and EUR/TRY both increased strongly during the study period. This is important for the housing market because construction costs are affected by exchange rates. Even when houses are sold in Turkish lira, many construction inputs may be directly or indirectly connected to foreign currency prices.</p>
+<p>The exchange rate trend is therefore consistent with a cost-side explanation of housing price increases. When the Turkish lira loses value, imported materials, energy, equipment, and other cost components may become more expensive. These cost increases can later be reflected in house prices.</p>
+</section>
+<section id="housing-sales-trend" class="level3">
+<h3 class="anchored" data-anchor-id="housing-sales-trend">Housing Sales Trend</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(turkey_housing, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Total_Sales)) <span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Total Housing Sales in Türkiye"</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total Sales"</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="project_files/figure-html/housing-sales-trend-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Total Housing Sales in Türkiye</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Housing sales show a more volatile pattern compared with the house price index. There are increases and decreases over time, but the movement is not as consistently upward as housing prices.</p>
+<p>This is an important result. If house price growth were only caused by stronger demand, sales would be expected to increase together with prices. However, the graph shows that prices rose much more consistently than sales. This suggests that house price increases may be related not only to demand, but also to cost pressures, inflation, and exchange rate movements.</p>
+</section>
+<section id="regional-house-price-comparison" class="level3">
+<h3 class="anchored" data-anchor-id="regional-house-price-comparison">Regional House Price Comparison</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>selected_regions <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Türkiye"</span>, <span class="st">"İstanbul"</span>, <span class="st">"Ankara"</span>, <span class="st">"İzmir"</span>, <span class="st">"Adana, Mersin"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>available_regions <span class="ot">&lt;-</span> selected_regions[selected_regions <span class="sc">%in%</span> <span class="fu">unique</span>(Konut_Index_Sales<span class="sc">$</span>Region)]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  Konut_Index_Sales <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Region <span class="sc">%in%</span> available_regions),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Konut_Endeksi, <span class="at">color =</span> Region)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Regional House Price Index Comparison"</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"House Price Index"</span>,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Region"</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="project_files/figure-html/regional-hpi-comparison-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>House Price Index Comparison for Selected Regions</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The regional comparison shows that housing price increases are not limited to one city or region. Selected regions generally move upward together, which suggests that national macroeconomic conditions affect the overall housing market.</p>
+<p>However, the regions do not move at exactly the same level. Metropolitan regions may face stronger price pressure because of population density, migration, investment demand, and limited land supply. Therefore, the graph suggests that the house price increase is both a national and regional issue.</p>
+</section>
+<section id="regional-distribution-of-house-price-index-values" class="level3">
+<h3 class="anchored" data-anchor-id="regional-distribution-of-house-price-index-values">Regional Distribution of House Price Index Values</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>top_regions <span class="ot">&lt;-</span> Konut_Index_Sales <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Region <span class="sc">!=</span> turkey_name) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Region) <span class="sc">%&gt;%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_HPI =</span> <span class="fu">mean</span>(Konut_Endeksi, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Mean_HPI)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Region)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  Konut_Index_Sales <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Region <span class="sc">%in%</span> top_regions),</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Region, Konut_Endeksi, <span class="at">FUN =</span> median), <span class="at">y =</span> Konut_Endeksi)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Regional Distribution of House Price Index Values"</span>,</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Region"</span>,</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"House Price Index"</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="project_files/figure-html/regional-boxplot-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Distribution of House Price Index Values by Selected Regions</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The boxplot provides a simpler regional comparison than showing all regions in a time-series graph. It shows which regions have higher median house price index values and which regions have wider variation.</p>
+<p>Regions with wider distributions experienced greater changes over time. This indicates that regional housing markets do not behave identically. Local characteristics such as population growth, migration, tourism, employment opportunities, and housing supply may create differences between regions.</p>
+</section>
 </section>
 <section id="model-fitting" class="level2">
 <h2 class="anchored" data-anchor-id="model-fitting">3.3 Model Fitting</h2>
-<p>xxxxxx</p>
+<p>Model fitting is used to examine whether the visual relationships observed in the previous section can also be seen statistically. The models in this section are not intended to prove causality. Instead, they are used to measure the association between the house price index and selected explanatory variables.</p>
+<p>The dependent variable is <code>Konut_Endeksi</code>. The main explanatory variables are USD/TRY, EUR/TRY, and total housing sales.</p>
+<section id="correlation-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="correlation-analysis">Correlation Analysis</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>correlation_data <span class="ot">&lt;-</span> macro_housing <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Konut_Endeksi, Total_Sales, USD, EUR) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>correlation_matrix <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(correlation_data), <span class="dv">3</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(correlation_matrix, <span class="at">caption =</span> <span class="st">"Correlation Matrix for Housing and Macroeconomic Variables"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Correlation Matrix for Housing and Macroeconomic Variables</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Konut_Endeksi</th>
+<th style="text-align: right;">Total_Sales</th>
+<th style="text-align: right;">USD</th>
+<th style="text-align: right;">EUR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Konut_Endeksi</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.166</td>
+<td style="text-align: right;">0.990</td>
+<td style="text-align: right;">0.991</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Total_Sales</td>
+<td style="text-align: right;">0.166</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.181</td>
+<td style="text-align: right;">0.189</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">USD</td>
+<td style="text-align: right;">0.990</td>
+<td style="text-align: right;">0.181</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.998</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EUR</td>
+<td style="text-align: right;">0.991</td>
+<td style="text-align: right;">0.189</td>
+<td style="text-align: right;">0.998</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The correlation matrix provides an initial statistical summary of the relationships between variables. A positive correlation between the house price index and exchange rates means that periods with higher exchange rates are also associated with higher house price index values.</p>
+<p>The relationship between house prices and sales should be interpreted carefully. Sales may increase during some periods because of credit campaigns, investment demand, or expectations of future price increases. However, in other periods, high prices may reduce affordability and weaken sales. Therefore, sales may be more volatile than prices.</p>
+</section>
+<section id="usdtry-and-house-price-index-relationship" class="level3">
+<h3 class="anchored" data-anchor-id="usdtry-and-house-price-index-relationship">USD/TRY and House Price Index Relationship</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(macro_housing, <span class="fu">aes</span>(<span class="at">x =</span> USD, <span class="at">y =</span> Konut_Endeksi)) <span class="sc">+</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"USD/TRY and House Price Index Relationship"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"USD/TRY"</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"House Price Index"</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="project_files/figure-html/hpi-usd-scatter-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Relationship Between USD/TRY and House Price Index</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The scatter plot shows a positive relationship between USD/TRY and the house price index. As the exchange rate increases, the house price index also tends to be higher. This does not prove that exchange rates alone caused house prices to rise, but it supports the idea that exchange rate depreciation is closely related to housing price increases.</p>
+<p>There are two possible mechanisms. First, exchange rate increases may raise construction costs through imported materials and other cost components. Second, households and investors may prefer real estate as a protection tool during inflationary periods.</p>
+</section>
+<section id="multiple-linear-regression-model" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-linear-regression-model">Multiple Linear Regression Model</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>model_data <span class="ot">&lt;-</span> macro_housing <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Konut_Endeksi, Total_Sales, USD, EUR)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>model_hpi <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  Konut_Endeksi <span class="sc">~</span> USD <span class="sc">+</span> EUR <span class="sc">+</span> Total_Sales,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> model_data</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_hpi)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Konut_Endeksi ~ USD + EUR + Total_Sales, data = model_data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-23.7988  -6.1086  -0.0975   7.3055  16.7383 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -9.703e+00  2.724e+00  -3.563 0.000514 ***
+USD          1.316e+00  8.632e-01   1.525 0.129714    
+EUR          3.191e+00  7.759e-01   4.112 6.91e-05 ***
+Total_Sales -3.571e-05  2.102e-05  -1.698 0.091818 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 8.393 on 130 degrees of freedom
+Multiple R-squared:  0.9829,    Adjusted R-squared:  0.9825 
+F-statistic:  2494 on 3 and 130 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>The regression model evaluates the association between house prices, exchange rates, and housing sales. USD and EUR are expected to have positive relationships with the house price index because currency depreciation can increase construction costs and affect investment behavior.</p>
+<p>Total sales may have a weaker or less stable relationship. While higher sales can indicate stronger demand, very high prices may also reduce affordability and limit transaction volume. Therefore, sales volume alone is not sufficient to explain housing price dynamics.</p>
+<p>Because these variables are time-series variables with strong upward trends, the regression results must be interpreted carefully. A high R-squared value may partly reflect common trends over time. For this reason, the model should be understood as an association model rather than a causal model.</p>
+</section>
+<section id="first-difference-model" class="level3">
+<h3 class="anchored" data-anchor-id="first-difference-model">First-Difference Model</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>diff_data <span class="ot">&lt;-</span> macro_housing <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Date) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">d_HPI =</span> Konut_Endeksi <span class="sc">-</span> <span class="fu">lag</span>(Konut_Endeksi),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">d_USD =</span> USD <span class="sc">-</span> <span class="fu">lag</span>(USD),</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">d_EUR =</span> EUR <span class="sc">-</span> <span class="fu">lag</span>(EUR),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">d_Sales =</span> Total_Sales <span class="sc">-</span> <span class="fu">lag</span>(Total_Sales)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(d_HPI, d_USD, d_EUR, d_Sales)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>diff_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  d_HPI <span class="sc">~</span> d_USD <span class="sc">+</span> d_EUR <span class="sc">+</span> d_Sales,</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> diff_data</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(diff_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = d_HPI ~ d_USD + d_EUR + d_Sales, data = diff_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.9574 -1.1363 -0.7572  1.1820  5.6355 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  1.054e+00  1.793e-01   5.877 3.35e-08 ***
+d_USD        2.334e+00  6.272e-01   3.721 0.000295 ***
+d_EUR       -5.826e-01  4.821e-01  -1.208 0.229103    
+d_Sales     -8.820e-06  3.774e-06  -2.337 0.020987 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.813 on 129 degrees of freedom
+Multiple R-squared:  0.2466,    Adjusted R-squared:  0.2291 
+F-statistic: 14.08 on 3 and 129 DF,  p-value: 5.401e-08</code></pre>
+</div>
+</div>
+<p>The first-difference model uses month-to-month changes instead of variable levels. This reduces the effect of common upward trends and focuses on whether changes in exchange rates and sales are associated with changes in the house price index.</p>
+<p>This model is more conservative than the level regression. It may have lower explanatory power because monthly changes are more volatile. However, it provides a useful robustness check by asking whether the relationship remains visible after removing much of the long-term trend.</p>
+</section>
+<section id="lagged-exchange-rate-model" class="level3">
+<h3 class="anchored" data-anchor-id="lagged-exchange-rate-model">Lagged Exchange Rate Model</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>lagged_data <span class="ot">&lt;-</span> macro_housing <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Date) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">USD_Lag1 =</span> <span class="fu">lag</span>(USD, <span class="dv">1</span>),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">EUR_Lag1 =</span> <span class="fu">lag</span>(EUR, <span class="dv">1</span>),</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sales_Lag1 =</span> <span class="fu">lag</span>(Total_Sales, <span class="dv">1</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(Konut_Endeksi, USD_Lag1, EUR_Lag1, Sales_Lag1)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>lagged_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  Konut_Endeksi <span class="sc">~</span> USD_Lag1 <span class="sc">+</span> EUR_Lag1 <span class="sc">+</span> Sales_Lag1,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> lagged_data</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lagged_model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Konut_Endeksi ~ USD_Lag1 + EUR_Lag1 + Sales_Lag1, 
+    data = lagged_data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-22.3389  -6.4137   0.2734   6.8654  14.9389 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -1.106e+01  2.642e+00  -4.188 5.17e-05 ***
+USD_Lag1     2.161e+00  8.743e-01   2.471  0.01476 *  
+EUR_Lag1     2.521e+00  7.894e-01   3.194  0.00176 ** 
+Sales_Lag1  -2.415e-05  2.044e-05  -1.181  0.23970    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 8.133 on 129 degrees of freedom
+Multiple R-squared:  0.984, Adjusted R-squared:  0.9836 
+F-statistic:  2648 on 3 and 129 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>The lagged model tests whether previous-month exchange rates and sales are associated with the current house price index. This is useful because housing prices may not respond immediately to macroeconomic changes. Construction costs, contracts, and market expectations often adjust with delay.</p>
+<p>If lagged exchange rates are positively associated with the house price index, this supports the argument that exchange rate movements may pass through to housing prices over time.</p>
+</section>
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">3.4 Results</h2>
-<p>xxxxxx</p>
+<p>The analysis provides several important results.</p>
+<p>First, the house price index in Türkiye increased strongly during the study period. The trend is especially steep in the later years, indicating an acceleration in housing prices rather than a stable long-term increase.</p>
+<p>Second, exchange rates increased during the same period. The visual comparison and regression models suggest a strong positive association between exchange rates and house prices. This supports the idea that currency depreciation and macroeconomic instability are important factors behind housing price increases.</p>
+<p>Third, housing sales do not follow the same smooth upward trend as housing prices. Sales fluctuate over time, while prices rise more consistently. This means that the increase in house prices cannot be explained only by higher transaction volume or demand.</p>
+<p>Fourth, regional analysis shows that house price increases occurred across different regions. However, regional differences are visible, meaning that national macroeconomic conditions interact with local housing market characteristics.</p>
+<p>Finally, the model fitting section supports the visual findings. Exchange rate variables are strongly associated with the house price index, while housing sales are less stable as an explanatory variable. The first-difference and lagged models provide additional checks and show that the relationship should be interpreted carefully because the variables have strong time trends.</p>
+<p>Overall, the results suggest that the increase in house prices in Türkiye is a multidimensional issue. Macroeconomic instability, exchange rate movements, inflationary expectations, construction costs, and regional housing market dynamics all appear to be relevant.</p>
 </section>
 </section>
 <section id="results-and-key-takeaways" class="level1">
 <h1>4. Results and Key Takeaways</h1>
-<p>xxxxxx</p>
+<section id="main-findings" class="level2">
+<h2 class="anchored" data-anchor-id="main-findings">Main Findings</h2>
+<p>The results show that house prices in Türkiye increased substantially during the study period. The increase became much stronger in the later years, suggesting that housing affordability became a more serious issue over time.</p>
+<p>Exchange rates are closely related to this pattern. Both USD/TRY and EUR/TRY increased sharply, and the house price index moved in the same general direction. This relationship is economically meaningful because exchange rates affect construction costs, imported inputs, investment expectations, and inflation behavior.</p>
+<p>Housing sales provide a different perspective. Sales volumes are volatile and do not increase as consistently as prices. This suggests that the housing price increase was not only demand-driven. Instead, cost-side pressures and macroeconomic instability likely played important roles.</p>
+<p>Regional results show that the price increase is not limited to a single city. However, some regions display stronger or more volatile price movements. This means that both national and local factors should be considered when analyzing the Turkish housing market.</p>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<ul>
+<li>House prices in Türkiye increased substantially during the study period, especially in the later years.</li>
+<li>Exchange rates and house prices show a strong positive relationship, suggesting that macroeconomic instability is closely related to housing price movements.</li>
+<li>Housing sales fluctuate over time and do not rise as consistently as prices, meaning that price growth is not only demand-driven.</li>
+<li>Regional differences exist, so national economic pressures interact with local market conditions.</li>
+<li>The overall findings suggest that inflation, exchange rate depreciation, construction costs, and investment behavior are important factors behind housing price increases.</li>
+</ul>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This project examined why house prices in Türkiye have increased over the last ten years by combining housing price index data, housing sales data, exchange rate data, and credit card expenditure data. The analysis shows that the increase in housing prices is a multidimensional issue.</p>
+<p>The strongest empirical pattern is the parallel increase in house prices and exchange rates. This suggests that currency depreciation and macroeconomic instability are important factors behind housing price growth. The housing sector is sensitive to exchange rates because construction inputs, energy, equipment, and investment expectations can all be affected by foreign currency movements.</p>
+<p>At the same time, housing sales do not show a continuous upward trend similar to prices. This indicates that rising prices cannot be explained only by increasing demand. Instead, the results suggest that cost-side pressures, inflation, and investment behavior played important roles.</p>
+<p>Regional analysis further shows that the housing price increase is a national phenomenon, but not all regions are affected in exactly the same way. Local conditions such as population growth, urbanization, migration, tourism, and supply limitations may explain why some regions experience stronger price increases than others.</p>
+<p>Overall, the findings support the conclusion that house price increases in Türkiye are associated with both macroeconomic instability and regional housing market dynamics. Future research could improve this analysis by adding mortgage interest rates, construction cost indices, household income, population growth, and housing supply indicators.</p>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->

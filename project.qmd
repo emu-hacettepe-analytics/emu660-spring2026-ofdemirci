@@ -382,24 +382,484 @@ with pd.ExcelWriter(output_file) as writer:
 
 # 3. Analysis
 
-xxxxxx
+This section presents the analytical part of the project. The purpose is to examine how house prices in Türkiye changed over time and how these changes are related to selected macroeconomic and demand-side indicators. The analysis focuses on housing price index movements, housing sales, exchange rates, regional differences, and consumer expenditure patterns.
+
+The main research question is:
+
+**Why have house prices in Türkiye increased strongly in the last ten years?**
+
+To answer this question, the analysis uses three datasets:
+
+-   `Konut_Index_Sales`: regional house price index and total housing sales data.
+-   `Conversion_Rates`: monthly USD/TRY and EUR/TRY exchange rates.
+-   `Expense_Quantity`: credit card expenditure quantity data by category.
+
+The analysis combines descriptive statistics, time-series visualization, correlation analysis, and regression modeling. The aim is not only to produce graphs, but also to interpret the patterns in relation to the housing market and the broader Turkish economy.
+
+```{r}
+#| label: setup-analysis
+#| message: false
+#| warning: false
+
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(knitr)
+library(scales)
+
+# Create Date variables if they are not already available
+if (!"Date" %in% names(Conversion_Rates)) {
+  Conversion_Rates <- Conversion_Rates %>%
+    mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
+}
+
+if (!"Date" %in% names(Expense_Quantity)) {
+  Expense_Quantity <- Expense_Quantity %>%
+    mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
+}
+
+if (!"Date" %in% names(Konut_Index_Sales)) {
+  Konut_Index_Sales <- Konut_Index_Sales %>%
+    mutate(Date = as.Date(sprintf("%d-%02d-01", Year, Month)))
+}
+
+# National level housing data
+turkey_name <- if ("Türkiye" %in% unique(Konut_Index_Sales$Region)) {
+  "Türkiye"
+} else {
+  unique(Konut_Index_Sales$Region)[1]
+}
+
+turkey_housing <- Konut_Index_Sales %>%
+  filter(Region == turkey_name) %>%
+  arrange(Date)
+
+macro_housing <- turkey_housing %>%
+  select(Date, Konut_Endeksi, Total_Sales) %>%
+  left_join(
+    Conversion_Rates %>% select(Date, USD, EUR),
+    by = "Date"
+  ) %>%
+  arrange(Date)
+```
 
 ## 3.1 Exploratory Data Analysis
 
-xxxxxx
+Exploratory Data Analysis is used to understand the structure of the data before conducting deeper analysis. Since this project uses monthly economic data, the EDA focuses on the time period, number of observations, variable meanings, and general distribution of the main indicators.
+
+The housing price index is the central variable of the project. Housing sales represent market activity, while exchange rates represent macroeconomic pressure. Credit card expenditure data is used as a supporting indicator for the general economic environment.
+
+### General Dataset Overview
+
+```{r}
+#| label: general-dataset-overview
+
+overview_table <- tibble(
+  Dataset = c("Konut_Index_Sales", "Conversion_Rates", "Expense_Quantity"),
+  Observations = c(nrow(Konut_Index_Sales), nrow(Conversion_Rates), nrow(Expense_Quantity)),
+  Columns = c(ncol(Konut_Index_Sales), ncol(Conversion_Rates), ncol(Expense_Quantity)),
+  First_Date = c(
+    as.character(min(Konut_Index_Sales$Date, na.rm = TRUE)),
+    as.character(min(Conversion_Rates$Date, na.rm = TRUE)),
+    as.character(min(Expense_Quantity$Date, na.rm = TRUE))
+  ),
+  Last_Date = c(
+    as.character(max(Konut_Index_Sales$Date, na.rm = TRUE)),
+    as.character(max(Conversion_Rates$Date, na.rm = TRUE)),
+    as.character(max(Expense_Quantity$Date, na.rm = TRUE))
+  )
+)
+
+kable(overview_table, caption = "General Overview of the Analytical Datasets")
+```
+
+The datasets provide a monthly structure, which is appropriate for observing long-term economic trends. The housing dataset provides the dependent variable of the study, while exchange rates and expenditure indicators help explain the macroeconomic environment behind housing price movements.
+
+### Main Variables Used in the Analysis
+
+```{r}
+#| label: main-variable-table
+
+variable_table <- tibble(
+  Variable = c(
+    "Date",
+    "Region",
+    "Konut_Endeksi",
+    "Total_Sales",
+    "USD",
+    "EUR",
+    "Expense_Type",
+    "Quantity"
+  ),
+  Meaning = c(
+    "Monthly observation date",
+    "National or regional housing market unit",
+    "House Price Index value",
+    "Total number of house sales",
+    "USD/TRY exchange rate",
+    "EUR/TRY exchange rate",
+    "Credit card expenditure category",
+    "Credit card expenditure quantity/value"
+  ),
+  Role = c(
+    "Time dimension",
+    "Regional comparison",
+    "Main housing price indicator",
+    "Housing demand/activity indicator",
+    "Macroeconomic indicator",
+    "Macroeconomic indicator",
+    "Consumption category",
+    "Consumer expenditure indicator"
+  )
+)
+
+kable(variable_table, caption = "Main Variables Used in the Analysis")
+```
+
+The most important variable is `Konut_Endeksi`, because it directly measures housing price changes. `Total_Sales` is used to observe whether price increases are accompanied by higher sales volume. `USD` and `EUR` are included because exchange rate movements are important for construction costs and inflation expectations in Türkiye.
+
+### Descriptive Statistics
+
+```{r}
+#| label: descriptive-statistics
+
+desc_table <- macro_housing %>%
+  summarise(
+    Observations = n(),
+    HPI_Min = round(min(Konut_Endeksi, na.rm = TRUE), 2),
+    HPI_Max = round(max(Konut_Endeksi, na.rm = TRUE), 2),
+    HPI_Mean = round(mean(Konut_Endeksi, na.rm = TRUE), 2),
+    Sales_Min = round(min(Total_Sales, na.rm = TRUE), 0),
+    Sales_Max = round(max(Total_Sales, na.rm = TRUE), 0),
+    Sales_Mean = round(mean(Total_Sales, na.rm = TRUE), 0),
+    USD_Min = round(min(USD, na.rm = TRUE), 2),
+    USD_Max = round(max(USD, na.rm = TRUE), 2),
+    EUR_Min = round(min(EUR, na.rm = TRUE), 2),
+    EUR_Max = round(max(EUR, na.rm = TRUE), 2)
+  )
+
+kable(desc_table, caption = "Descriptive Statistics for National Housing and Macroeconomic Variables")
+```
+
+The descriptive statistics show large differences between minimum and maximum values, especially for the house price index and exchange rates. This indicates that the study period includes major economic changes. The house price index increased substantially over time, while exchange rates also rose significantly.
+
+Sales statistics should be interpreted differently. Housing sales have high variation, but they do not necessarily follow a continuous upward trend. This distinction is important because it suggests that house price increases may not be explained only by sales volume.
+
+### Distribution of House Price Index Values
+
+```{r}
+#| label: hpi-distribution
+#| fig-cap: "Distribution of House Price Index Values"
+
+ggplot(Konut_Index_Sales, aes(x = Konut_Endeksi)) +
+  geom_histogram(bins = 30) +
+  labs(
+    title = "Distribution of House Price Index Values",
+    x = "House Price Index",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+```
+
+The distribution of house price index values is right-skewed. This is expected because the index increased sharply in recent years, creating higher values at the right side of the distribution. The distribution therefore reflects the structural upward movement in housing prices rather than a stable or normally distributed market.
 
 ## 3.2 Trend Analysis
 
-xxxxxx
+Trend analysis is the most important part of this project because the research question focuses on how house prices changed over time. This section examines national house price movements, exchange rates, housing sales, and regional differences.
+
+### National House Price Index Trend
+
+```{r}
+#| label: national-hpi-trend
+#| fig-cap: "House Price Index Trend in Türkiye"
+
+ggplot(turkey_housing, aes(x = Date, y = Konut_Endeksi)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "House Price Index Trend in Türkiye",
+    x = "Date",
+    y = "House Price Index"
+  ) +
+  theme_minimal()
+```
+
+The national house price index shows a strong upward trend over time. The increase is not linear. In the earlier part of the period, prices increased more gradually. In the later part of the period, the slope becomes much steeper, showing that house price growth accelerated.
+
+This finding directly supports the main motivation of the project. The issue is not only that house prices increased, but that the speed of increase became much stronger. This type of acceleration is usually connected with broader macroeconomic pressure, including inflation, currency depreciation, construction cost increases, and investment demand.
+
+### Exchange Rate Trend
+
+```{r}
+#| label: exchange-rate-trend
+#| fig-cap: "Monthly USD/TRY and EUR/TRY Exchange Rates"
+
+exchange_long <- Conversion_Rates %>%
+  select(Date, USD, EUR) %>%
+  pivot_longer(
+    cols = c(USD, EUR),
+    names_to = "Currency",
+    values_to = "Rate"
+  )
+
+ggplot(exchange_long, aes(x = Date, y = Rate, color = Currency)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Exchange Rates Over Time",
+    x = "Date",
+    y = "TRY Value",
+    color = "Currency"
+  ) +
+  theme_minimal()
+```
+
+USD/TRY and EUR/TRY both increased strongly during the study period. This is important for the housing market because construction costs are affected by exchange rates. Even when houses are sold in Turkish lira, many construction inputs may be directly or indirectly connected to foreign currency prices.
+
+The exchange rate trend is therefore consistent with a cost-side explanation of housing price increases. When the Turkish lira loses value, imported materials, energy, equipment, and other cost components may become more expensive. These cost increases can later be reflected in house prices.
+
+### Housing Sales Trend
+
+```{r}
+#| label: housing-sales-trend
+#| fig-cap: "Total Housing Sales in Türkiye"
+
+ggplot(turkey_housing, aes(x = Date, y = Total_Sales)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Total Housing Sales in Türkiye",
+    x = "Date",
+    y = "Total Sales"
+  ) +
+  theme_minimal()
+```
+
+Housing sales show a more volatile pattern compared with the house price index. There are increases and decreases over time, but the movement is not as consistently upward as housing prices.
+
+This is an important result. If house price growth were only caused by stronger demand, sales would be expected to increase together with prices. However, the graph shows that prices rose much more consistently than sales. This suggests that house price increases may be related not only to demand, but also to cost pressures, inflation, and exchange rate movements.
+
+### Regional House Price Comparison
+
+```{r}
+#| label: regional-hpi-comparison
+#| fig-cap: "House Price Index Comparison for Selected Regions"
+
+selected_regions <- c("Türkiye", "İstanbul", "Ankara", "İzmir", "Adana, Mersin")
+available_regions <- selected_regions[selected_regions %in% unique(Konut_Index_Sales$Region)]
+
+ggplot(
+  Konut_Index_Sales %>% filter(Region %in% available_regions),
+  aes(x = Date, y = Konut_Endeksi, color = Region)
+) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Regional House Price Index Comparison",
+    x = "Date",
+    y = "House Price Index",
+    color = "Region"
+  ) +
+  theme_minimal()
+```
+
+The regional comparison shows that housing price increases are not limited to one city or region. Selected regions generally move upward together, which suggests that national macroeconomic conditions affect the overall housing market.
+
+However, the regions do not move at exactly the same level. Metropolitan regions may face stronger price pressure because of population density, migration, investment demand, and limited land supply. Therefore, the graph suggests that the house price increase is both a national and regional issue.
+
+### Regional Distribution of House Price Index Values
+
+```{r}
+#| label: regional-boxplot
+#| fig-cap: "Distribution of House Price Index Values by Selected Regions"
+#| fig-height: 6
+
+top_regions <- Konut_Index_Sales %>%
+  filter(Region != turkey_name) %>%
+  group_by(Region) %>%
+  summarise(Mean_HPI = mean(Konut_Endeksi, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(Mean_HPI)) %>%
+  slice_head(n = 8) %>%
+  pull(Region)
+
+ggplot(
+  Konut_Index_Sales %>% filter(Region %in% top_regions),
+  aes(x = reorder(Region, Konut_Endeksi, FUN = median), y = Konut_Endeksi)
+) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(
+    title = "Regional Distribution of House Price Index Values",
+    x = "Region",
+    y = "House Price Index"
+  ) +
+  theme_minimal()
+```
+
+The boxplot provides a simpler regional comparison than showing all regions in a time-series graph. It shows which regions have higher median house price index values and which regions have wider variation.
+
+Regions with wider distributions experienced greater changes over time. This indicates that regional housing markets do not behave identically. Local characteristics such as population growth, migration, tourism, employment opportunities, and housing supply may create differences between regions.
 
 ## 3.3 Model Fitting
 
-xxxxxx
+Model fitting is used to examine whether the visual relationships observed in the previous section can also be seen statistically. The models in this section are not intended to prove causality. Instead, they are used to measure the association between the house price index and selected explanatory variables.
+
+The dependent variable is `Konut_Endeksi`. The main explanatory variables are USD/TRY, EUR/TRY, and total housing sales.
+
+### Correlation Analysis
+
+```{r}
+#| label: correlation-analysis
+
+correlation_data <- macro_housing %>%
+  select(Konut_Endeksi, Total_Sales, USD, EUR) %>%
+  drop_na()
+
+correlation_matrix <- round(cor(correlation_data), 3)
+
+kable(correlation_matrix, caption = "Correlation Matrix for Housing and Macroeconomic Variables")
+```
+
+The correlation matrix provides an initial statistical summary of the relationships between variables. A positive correlation between the house price index and exchange rates means that periods with higher exchange rates are also associated with higher house price index values.
+
+The relationship between house prices and sales should be interpreted carefully. Sales may increase during some periods because of credit campaigns, investment demand, or expectations of future price increases. However, in other periods, high prices may reduce affordability and weaken sales. Therefore, sales may be more volatile than prices.
+
+### USD/TRY and House Price Index Relationship
+
+```{r}
+#| label: hpi-usd-scatter
+#| fig-cap: "Relationship Between USD/TRY and House Price Index"
+
+ggplot(macro_housing, aes(x = USD, y = Konut_Endeksi)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "USD/TRY and House Price Index Relationship",
+    x = "USD/TRY",
+    y = "House Price Index"
+  ) +
+  theme_minimal()
+```
+
+The scatter plot shows a positive relationship between USD/TRY and the house price index. As the exchange rate increases, the house price index also tends to be higher. This does not prove that exchange rates alone caused house prices to rise, but it supports the idea that exchange rate depreciation is closely related to housing price increases.
+
+There are two possible mechanisms. First, exchange rate increases may raise construction costs through imported materials and other cost components. Second, households and investors may prefer real estate as a protection tool during inflationary periods.
+
+### Multiple Linear Regression Model
+
+```{r}
+#| label: regression-model
+
+model_data <- macro_housing %>%
+  drop_na(Konut_Endeksi, Total_Sales, USD, EUR)
+
+model_hpi <- lm(
+  Konut_Endeksi ~ USD + EUR + Total_Sales,
+  data = model_data
+)
+
+summary(model_hpi)
+```
+
+The regression model evaluates the association between house prices, exchange rates, and housing sales. USD and EUR are expected to have positive relationships with the house price index because currency depreciation can increase construction costs and affect investment behavior.
+
+Total sales may have a weaker or less stable relationship. While higher sales can indicate stronger demand, very high prices may also reduce affordability and limit transaction volume. Therefore, sales volume alone is not sufficient to explain housing price dynamics.
+
+Because these variables are time-series variables with strong upward trends, the regression results must be interpreted carefully. A high R-squared value may partly reflect common trends over time. For this reason, the model should be understood as an association model rather than a causal model.
+
+### First-Difference Model
+
+```{r}
+#| label: first-difference-model
+
+diff_data <- macro_housing %>%
+  arrange(Date) %>%
+  mutate(
+    d_HPI = Konut_Endeksi - lag(Konut_Endeksi),
+    d_USD = USD - lag(USD),
+    d_EUR = EUR - lag(EUR),
+    d_Sales = Total_Sales - lag(Total_Sales)
+  ) %>%
+  drop_na(d_HPI, d_USD, d_EUR, d_Sales)
+
+diff_model <- lm(
+  d_HPI ~ d_USD + d_EUR + d_Sales,
+  data = diff_data
+)
+
+summary(diff_model)
+```
+
+The first-difference model uses month-to-month changes instead of variable levels. This reduces the effect of common upward trends and focuses on whether changes in exchange rates and sales are associated with changes in the house price index.
+
+This model is more conservative than the level regression. It may have lower explanatory power because monthly changes are more volatile. However, it provides a useful robustness check by asking whether the relationship remains visible after removing much of the long-term trend.
+
+### Lagged Exchange Rate Model
+
+```{r}
+#| label: lagged-model
+
+lagged_data <- macro_housing %>%
+  arrange(Date) %>%
+  mutate(
+    USD_Lag1 = lag(USD, 1),
+    EUR_Lag1 = lag(EUR, 1),
+    Sales_Lag1 = lag(Total_Sales, 1)
+  ) %>%
+  drop_na(Konut_Endeksi, USD_Lag1, EUR_Lag1, Sales_Lag1)
+
+lagged_model <- lm(
+  Konut_Endeksi ~ USD_Lag1 + EUR_Lag1 + Sales_Lag1,
+  data = lagged_data
+)
+
+summary(lagged_model)
+```
+
+The lagged model tests whether previous-month exchange rates and sales are associated with the current house price index. This is useful because housing prices may not respond immediately to macroeconomic changes. Construction costs, contracts, and market expectations often adjust with delay.
+
+If lagged exchange rates are positively associated with the house price index, this supports the argument that exchange rate movements may pass through to housing prices over time.
 
 ## 3.4 Results
 
-xxxxxx
+The analysis provides several important results.
+
+First, the house price index in Türkiye increased strongly during the study period. The trend is especially steep in the later years, indicating an acceleration in housing prices rather than a stable long-term increase.
+
+Second, exchange rates increased during the same period. The visual comparison and regression models suggest a strong positive association between exchange rates and house prices. This supports the idea that currency depreciation and macroeconomic instability are important factors behind housing price increases.
+
+Third, housing sales do not follow the same smooth upward trend as housing prices. Sales fluctuate over time, while prices rise more consistently. This means that the increase in house prices cannot be explained only by higher transaction volume or demand.
+
+Fourth, regional analysis shows that house price increases occurred across different regions. However, regional differences are visible, meaning that national macroeconomic conditions interact with local housing market characteristics.
+
+Finally, the model fitting section supports the visual findings. Exchange rate variables are strongly associated with the house price index, while housing sales are less stable as an explanatory variable. The first-difference and lagged models provide additional checks and show that the relationship should be interpreted carefully because the variables have strong time trends.
+
+Overall, the results suggest that the increase in house prices in Türkiye is a multidimensional issue. Macroeconomic instability, exchange rate movements, inflationary expectations, construction costs, and regional housing market dynamics all appear to be relevant.
 
 # 4. Results and Key Takeaways
 
-xxxxxx
+## Main Findings
+
+The results show that house prices in Türkiye increased substantially during the study period. The increase became much stronger in the later years, suggesting that housing affordability became a more serious issue over time.
+
+Exchange rates are closely related to this pattern. Both USD/TRY and EUR/TRY increased sharply, and the house price index moved in the same general direction. This relationship is economically meaningful because exchange rates affect construction costs, imported inputs, investment expectations, and inflation behavior.
+
+Housing sales provide a different perspective. Sales volumes are volatile and do not increase as consistently as prices. This suggests that the housing price increase was not only demand-driven. Instead, cost-side pressures and macroeconomic instability likely played important roles.
+
+Regional results show that the price increase is not limited to a single city. However, some regions display stronger or more volatile price movements. This means that both national and local factors should be considered when analyzing the Turkish housing market.
+
+## Key Takeaways
+
+-   House prices in Türkiye increased substantially during the study period, especially in the later years.
+-   Exchange rates and house prices show a strong positive relationship, suggesting that macroeconomic instability is closely related to housing price movements.
+-   Housing sales fluctuate over time and do not rise as consistently as prices, meaning that price growth is not only demand-driven.
+-   Regional differences exist, so national economic pressures interact with local market conditions.
+-   The overall findings suggest that inflation, exchange rate depreciation, construction costs, and investment behavior are important factors behind housing price increases.
+
+## Conclusion
+
+This project examined why house prices in Türkiye have increased over the last ten years by combining housing price index data, housing sales data, exchange rate data, and credit card expenditure data. The analysis shows that the increase in housing prices is a multidimensional issue.
+
+The strongest empirical pattern is the parallel increase in house prices and exchange rates. This suggests that currency depreciation and macroeconomic instability are important factors behind housing price growth. The housing sector is sensitive to exchange rates because construction inputs, energy, equipment, and investment expectations can all be affected by foreign currency movements.
+
+At the same time, housing sales do not show a continuous upward trend similar to prices. This indicates that rising prices cannot be explained only by increasing demand. Instead, the results suggest that cost-side pressures, inflation, and investment behavior played important roles.
+
+Regional analysis further shows that the housing price increase is a national phenomenon, but not all regions are affected in exactly the same way. Local conditions such as population growth, urbanization, migration, tourism, and supply limitations may explain why some regions experience stronger price increases than others.
+
+Overall, the findings support the conclusion that house price increases in Türkiye are associated with both macroeconomic instability and regional housing market dynamics. Future research could improve this analysis by adding mortgage interest rates, construction cost indices, household income, population growth, and housing supply indicators.
