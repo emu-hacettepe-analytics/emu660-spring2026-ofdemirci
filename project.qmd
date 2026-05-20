@@ -16,6 +16,7 @@ format:
     fig-cap-location: bottom
     df-print: paged
   pdf:
+    documentclass: article
     colorlinks: true
     papersize: a4
     fontsize: 11pt
@@ -25,11 +26,23 @@ format:
     margin-bottom: 2cm
     toc: true
     number-sections: true
+    keep-tex: true
+    header-includes:
+      - \usepackage{booktabs}
+      - \usepackage{longtable}
+      - \usepackage{array}
+      - \usepackage{multirow}
+      - \usepackage{float}
+      - \usepackage{makecell}
 execute:
   echo: true
   warning: false
   message: false
 ---
+
+```{r}
+options(kableExtra.latex.load_packages = FALSE)
+```
 
 ## Abstract {.unnumbered}
 
@@ -855,8 +868,9 @@ as.data.frame(summary(m1)$coefficients) %>%
     `p value`    = format(round(`Pr(>|t|)`, 4), nsmall = 4)
   ) %>%
   select(Term, Estimate, `Std. Error`, `t value`, `p value`) %>%
-  kable(caption = sprintf("Table 5. Baseline Model – R² = %.3f",
-                          summary(m1)$r.squared)) %>%
+  kable(row.names = FALSE,
+      caption = sprintf("Table 5. Baseline Model – R² = %.3f",
+                        summary(m1)$r.squared)) %>%
   kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
 ```
 
@@ -884,9 +898,9 @@ as.data.frame(summary(m2)$coefficients) %>%
     )
   ) %>%
   select(Term, Estimate, `Std. Error`, `t value`, `p value`, Sig) %>%
-  kable(caption = sprintf("Table 6. Full Model – R² = %.3f, Adjusted R² = %.3f",
-                          summary(m2)$r.squared,
-                          summary(m2)$adj.r.squared)) %>%
+  kable(row.names = FALSE,
+      caption = sprintf("Table 6. Full Model – R² = %.3f",
+                        summary(m2)$r.squared)) %>%
   kable_styling(bootstrap_options = c("striped"), full_width = FALSE)
 ```
 
